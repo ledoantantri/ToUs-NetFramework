@@ -25,15 +25,15 @@
                  HorizontalAlignment="Left"
                  Width="{Binding MyWidth, ElementName=Root}"
                  TextChanged="TextBoxFilter_TextChanged"
-                 Style="{StaticResource TextBoxStyle}"
-                 Text="{Binding TextFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                 Style="{StaticResource TextBoxStyle}"/>
         <Icon:PackIconMaterial Kind="Magnify"
                                Foreground="{StaticResource PrimaryColor}"
                                Width="21.33"
                                Panel.ZIndex="1"
                                Height="21.33" 
-                               Margin="428 0 0 0"
-                               VerticalAlignment="Center" RenderTransformOrigin="1.173,0.535"/>
+                               HorizontalAlignment="Right"
+                               Margin="0 0 10 0"
+                               VerticalAlignment="Center"/>
 
     </Grid>
     

@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ToUs.View.HomePageView
+namespace ToUs.Resources.CustomControl
 {
     /// <summary>
-    /// Interaction logic for UserModeView.xaml
+    /// Interaction logic for BoxTimetableDetail.xaml
     /// </summary>
-    public partial class UserModeView : UserControl
+    public partial class BoxTimetableDetail : UserControl
     {
-        public UserModeView()
+        public BoxTimetableDetail()
         {
             InitializeComponent();
-            TextDateTime.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
-
         }
     }
 }
