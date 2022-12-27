@@ -20,20 +20,18 @@ namespace ToUs.Resources.CustomControl
     /// </summary>
     public partial class TextBoxPlaceHolder : UserControl
     {
-
         //TextInput
 
-
-        public String TextInput
+        public new string TextInput
         {
-            get { return (String)GetValue(TextInputProperty); }
+            get { return (string)GetValue(TextInputProperty); }
             set { SetValue(TextInputProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TextInput.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for TextInput. This enables animation,
+        // styling, binding, etc...
         public static readonly DependencyProperty TextInputProperty =
-            DependencyProperty.Register("TextInput", typeof(String), typeof(TextBoxPlaceHolder));
-
+            DependencyProperty.Register("TextInput", typeof(string), typeof(TextBoxPlaceHolder));
 
         //Title
         public string Title
@@ -42,11 +40,11 @@ namespace ToUs.Resources.CustomControl
             set { SetValue(TitleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for MyProperty. This enables animation,
+        // styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(TextBoxPlaceHolder),
                 new PropertyMetadata(string.Empty));
-
 
         //Error
         public string Error
@@ -55,7 +53,8 @@ namespace ToUs.Resources.CustomControl
             set { SetValue(ErrorProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Error.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Error. This enables animation,
+        // styling, binding, etc...
         public static readonly DependencyProperty ErrorProperty =
             DependencyProperty.Register("Error", typeof(string),
                 typeof(TextBoxPlaceHolder), new PropertyMetadata(string.Empty));
@@ -67,7 +66,8 @@ namespace ToUs.Resources.CustomControl
             set { SetValue(WidthSetProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Width.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Width. This enables animation,
+        // styling, binding, etc...
         public static readonly DependencyProperty WidthSetProperty =
             DependencyProperty.Register("Width", typeof(int),
                 typeof(TextBoxPlaceHolder), new PropertyMetadata(0));
@@ -79,7 +79,8 @@ namespace ToUs.Resources.CustomControl
             set { SetValue(isPasswordProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for isPassword.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for isPassword. This enables animation,
+        // styling, binding, etc...
         public static readonly DependencyProperty isPasswordProperty =
             DependencyProperty.Register("isPassword", typeof(bool),
                 typeof(TextBoxPlaceHolder), new PropertyMetadata(false));
@@ -93,14 +94,11 @@ namespace ToUs.Resources.CustomControl
 
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(TextBoxPlaceHolder));
 
-
         public TextBoxPlaceHolder()
         {
             InitializeComponent();
             passBox.PasswordChanged += OnPasswordChanged;
-
         }
-
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e)
         {
