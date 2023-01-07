@@ -3,11 +3,14 @@ using System.Windows.Input;
 using ToUs.Utilities;
 using ToUs.ViewModel.HomePageViewModel;
 using ToUs.ViewModel.ScheduleViewModel;
+using ToUs.ViewModel.PreviewViewModel;
 
 namespace ToUs.ViewModel
 {
-    internal class MainViewViewModel : ViewModelBase
+    class MainViewViewModel : ViewModelBase
     {
+
+
         private object _currentView;
         private bool _isLoaded;
         private bool _isScale;
@@ -16,6 +19,8 @@ namespace ToUs.ViewModel
         private bool _isExit;
         public static int ourScreenWidth = Screen.PrimaryScreen.WorkingArea.Width;
         public static int ourScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+
+
 
         public float ScaleWidth
         {
@@ -53,6 +58,7 @@ namespace ToUs.ViewModel
             set { _isScale = value; OnPropertyChanged(); }
         }
 
+
         public ICommand HomeUserCommand { get; set; }
         public ICommand HomeClientCommand { get; set; }
         public ICommand PreviewCommand { get; set; }
@@ -64,8 +70,13 @@ namespace ToUs.ViewModel
         public ICommand CloseAppCommand { get; set; }
         public ICommand NotCloseAppCommand { get; set; }
 
+
+
+
+
         public MainViewViewModel()
         {
+
             HomeUserCommand = new RelayCommand(HomeUser);
             //HomeClientCommand = new RelayCommand(HomeClient);
             //AutomaticScheduleCommand = new RelayCommand(AutomaticSchedule);
@@ -133,5 +144,6 @@ namespace ToUs.ViewModel
         {
             IsExit = true;
         }
+
     }
 }
