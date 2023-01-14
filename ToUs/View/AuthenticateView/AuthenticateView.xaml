@@ -23,11 +23,11 @@
     </Window.DataContext>
 
     <Window.Resources>
-        
+
         <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.66666666" ScaleY="0.66666666" />
-        
+
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        
+
     </Window.Resources>
 
     <Window.Visibility>
@@ -110,8 +110,7 @@
             Height="810"
             Background="WhiteSmoke"
             CornerRadius="30"
-            LayoutTransform="{StaticResource windowScaleTransform}"
-            Opacity="1">
+            LayoutTransform="{StaticResource windowScaleTransform}">
 
             <Border.Resources>
 
@@ -314,7 +313,7 @@
             Margin="2,159,-2,-6"
             Background="Transparent"
             BorderThickness="0"
-            LayoutTransform="{StaticResource windowScaleTransform}" d:IsHidden="True">
+            LayoutTransform="{StaticResource windowScaleTransform}">
 
             <Border.RenderTransform>
 
@@ -414,30 +413,9 @@
             Margin="2,100,-2,-74"
             Background="Transparent"
             BorderThickness="0"
-            LayoutTransform="{StaticResource windowScaleTransform}">
+            LayoutTransform="{StaticResource windowScaleTransform}" d:IsHidden="True">
 
-            <Border.Resources>
-
-                <Style TargetType="Border">
-
-                    <Style.Triggers>
-
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.IsSendCode, UpdateSourceTrigger=PropertyChanged}" Value="True">
-
-                            <DataTrigger.EnterActions>
-
-                                <BeginStoryboard Storyboard="{StaticResource SendCodeEmailSuccessfully}"/>
-
-                            </DataTrigger.EnterActions>
-
-                        </DataTrigger>
-
-                    </Style.Triggers>
-                        
-                </Style>
-                    
-            </Border.Resources>
-
+           
             <Border.RenderTransform>
 
                 <TransformGroup>
@@ -450,6 +428,29 @@
 
             <Grid Margin="0,0,0,190"
                   Height="500">
+
+                <Grid.Resources>
+
+                    <Style TargetType="Grid">
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.IsSendCode, UpdateSourceTrigger=PropertyChanged}" Value="True">
+
+                                <DataTrigger.EnterActions>
+
+                                    <BeginStoryboard Storyboard="{StaticResource SendCodeEmailSuccessfully}"/>
+
+                                </DataTrigger.EnterActions>
+
+                            </DataTrigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Grid.Resources>
+
 
                 <Button
                     Width="123"
