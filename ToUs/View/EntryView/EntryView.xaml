@@ -237,7 +237,7 @@
                     </Line>
                 </Grid>
                 
-                <!--ABOUT US-->
+                <!--ICON ABOUT US-->
                 <Grid Name="About_Us">
                     <Icon:PackIconMaterial x:Name="AboutUs"
                                            Kind="InformationOutline"
