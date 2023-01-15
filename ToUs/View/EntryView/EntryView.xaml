@@ -254,6 +254,7 @@
                        HorizontalAlignment="Center"
                        TextWrapping="Wrap"
                        TextAlignment="Justify">
+                <!--Paragraph 1-->
                 <Span Name="Paragraph_01">
                     <Span Foreground="#665D8C">
                         <Run FontSize="50" FontWeight="Bold"> ToUs </Run>
@@ -292,17 +293,23 @@
                         <Bold> (4) Nguyễn Văn Quốc Tuấn </Bold> - 21522758 và 
                         <Bold> (5) Trần Võ Sơn Tùng </Bold> - 21522772.
                     </Span>
+                </Span>
+                
+                <!--Add Space-->
+                <LineBreak/>
+                <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="40"></TextBlock>
+                <LineBreak/>
                     
-                    <LineBreak/>
-                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="40"></TextBlock>
-                    <LineBreak/>
-                    
+                <!--Paragraph 2-->
+                <Span Name="Paragraph_02">
                     <Span FontSize="36"
                           FontWeight="Bold"
                           Foreground="#665D8C">
                         Chức năng:
                     </Span>
                     
+                    <LineBreak/>
+                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="10"></TextBlock>
                     <LineBreak/>
                     
                     <Span FontSize="30" 
@@ -322,6 +329,8 @@
                     </Span>
                     
                     <LineBreak/>
+                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="10"></TextBlock>
+                    <LineBreak/>
                     
                     <Span FontSize="30" 
                           Foreground="#666666">
@@ -339,9 +348,7 @@
                         </Italic>
                         Ghi chú nội dung môn học
                     </Span>
-                  
                 </Span>
-                
             </TextBlock>
         </Border>
     </Grid>
