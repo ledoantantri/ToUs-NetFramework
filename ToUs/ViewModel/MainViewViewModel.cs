@@ -3,7 +3,6 @@ using System.Windows.Input;
 using ToUs.Utilities;
 using ToUs.ViewModel.HomePageViewModel;
 using ToUs.ViewModel.ScheduleViewModel;
-using ToUs.ViewModel.PreviewViewModel;
 
 namespace ToUs.ViewModel
 {

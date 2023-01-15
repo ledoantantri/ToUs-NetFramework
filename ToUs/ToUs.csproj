@@ -74,7 +74,7 @@
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1\System.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -100,6 +100,9 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -125,7 +128,9 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8.1\PresentationFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Z.EntityFramework.Extensions, Version=7.18.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.EntityFramework.Extensions.7.18.1\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
@@ -140,10 +145,16 @@
     <Compile Include="Models\Class.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClassManager.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Exceptions\NoDatasException.cs" />
     <Compile Include="Exceptions\NotCorrectFileException.cs" />
     <Compile Include="Models\DataSupporter.cs" />
+    <Compile Include="Models\Faculty.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Permission.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
@@ -153,10 +164,16 @@
     <Compile Include="Models\Subject.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SubjectManager.cs">
+    <Compile Include="Models\SubjectBackUp.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TableManager.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Teacher.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeacherBackUp.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TimeTable.cs">

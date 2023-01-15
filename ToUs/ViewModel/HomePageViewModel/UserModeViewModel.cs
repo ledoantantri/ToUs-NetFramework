@@ -41,7 +41,7 @@ namespace ToUs.ViewModel.HomePageViewModel
         public bool IsCheckedAutomaticMode
         {
             get { return _isCheckedAutomaticMode; }
-            set { _isCheckedAutomaticMode = value; OnPropertyChanged(nameof(IsCheckedAutomaticMode)); } 
+            set { _isCheckedAutomaticMode = value; OnPropertyChanged(nameof(IsCheckedAutomaticMode)); }
         }
 
         public object CurrentView
@@ -50,7 +50,7 @@ namespace ToUs.ViewModel.HomePageViewModel
             set
             {
                 _currentView = value;
-                OnPropertyChanged(nameof(CurrentView)); 
+                OnPropertyChanged(nameof(CurrentView));
             }
         }
 
@@ -65,7 +65,6 @@ namespace ToUs.ViewModel.HomePageViewModel
             ChooseNormalModeCommand = new RelayCommand(ChooseNormalMode);
             ChooseAutomaticModeCommand = new RelayCommand(ChooseAutomaticMode);
             CreateTableCommand = new RelayCommand(CreateTable, CanCreateTable);
-
         }
 
         private bool CanCreateTable(object arg)
@@ -107,7 +106,7 @@ namespace ToUs.ViewModel.HomePageViewModel
                     Stopwatch clock = Stopwatch.StartNew();
                     clock.Start();
 
-                    if (ExcelReader.Open(path))
+                    if (ExcelReader.Open(path, "Đại trà"))
                     {
                         ExcelReader.FormatExcelDatas();
                         if (ExcelImportDB.Connect())

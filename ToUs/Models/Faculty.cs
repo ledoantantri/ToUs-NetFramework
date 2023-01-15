@@ -12,29 +12,21 @@ namespace ToUs.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Class
+    public partial class Faculty
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
+        public Faculty()
         {
-            this.ClassManagers = new HashSet<ClassManager>();
+            this.Subjects = new HashSet<Subject>();
+            this.SubjectBackUps = new HashSet<SubjectBackUp>();
         }
     
         public string Id { get; set; }
-        public Nullable<int> NumberOfStudents { get; set; }
-        public string Room { get; set; }
-        public Nullable<int> Frequency { get; set; }
-        public string System { get; set; }
-        public string Language { get; set; }
-        public string DayInWeek { get; set; }
-        public string Lession { get; set; }
-        public string Note { get; set; }
-        public Nullable<System.DateTime> BeginDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public int Semester { get; set; }
-        public int Year { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassManager> ClassManagers { get; set; }
+        public virtual ICollection<Subject> Subjects { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubjectBackUp> SubjectBackUps { get; set; }
     }
 }

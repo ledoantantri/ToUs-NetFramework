@@ -2,60 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 
 namespace ToUs.Models
 {
     public static class ExcelImportDB
     {
         private static DataTableCollection _tableCollection;
-        private static List<Class> _classes;
-        private static List<Subject> _subjects;
-        private static List<Teacher> _teachers;
-        private static List<SubjectManager> _subjectManagers;
-
-        private static readonly string[] _subjectHeaderComponents =
-        {
-            "MÃ MH", "TÊN MÔN HỌC", "SỐ TC", "HTGD","HỆ ĐT","KHOA QL", "THỰC HÀNH","GHICHU","NGÔN NGỮ"
-        };
-
-        private static readonly string[] _teacherHeaderComponents =
-        {
-            "MÃ GIẢNG VIÊN", "TÊN GIẢNG VIÊN"
-        };
-
-        private static readonly string[] _classHeaderComponents =
-        {
-            "MÃ LỚP", "HỌC KỲ", "NKT", "NBD", "NĂM HỌC", "THỨ","PHÒNG HỌC","TIẾT", "SĨ SỐ", "CÁCH TUẦN"
-        };
-
-        public static List<Class> ClassToUss
-            => _classes ?? throw new ArgumentNullException("Classes does not exited");
-
-        public static List<Subject> SubjectToUss
-            => _subjects ?? throw new ArgumentNullException("Subjects does not exited");
-
-        public static List<Teacher> TeacherToUss
-            => _teachers ?? throw new ArgumentNullException("Teachers does not exited");
-
-        public static List<SubjectManager> SubjectManagerToUss
-            => _subjectManagers ?? throw new ArgumentNullException("SubjectManager does not exited");
 
         public static bool Connect()
         {
             try
             {
                 _tableCollection = ExcelReader.ExcelDataTables;
-                _subjects = null;
-                _teachers = null;
-                _classes = null;
-                _subjectManagers = null;
-
                 return true;
             }
             catch (NoDatasException)
@@ -70,7 +35,7 @@ namespace ToUs.Models
             }
         }
 
-        private static List<Subject> GetAllSubjects()
+        public static List<Subject> GetAllSubjects()
         {
             List<Subject> subjects = new List<Subject>();
             foreach (DataTable dataTable in _tableCollection)
@@ -78,7 +43,6 @@ namespace ToUs.Models
                 foreach (DataRow row in dataTable.Rows)
                 {
                     string id = row["MÃ MH"].ToString();
-                    //var list = DataProvider.Instance.entities.Subjects.BulkRead(oldSubjects);
 
                     if (!subjects.Any(subject => subject.Id == id))
                     {
@@ -88,7 +52,7 @@ namespace ToUs.Models
                             Name = row["TÊN MÔN HỌC"].ToString().Trim(),
                             NumberOfDigits = int.Parse(row["SỐ TC"].ToString().Trim()),
                             HTGD = row["HTGD"].ToString().Trim(),
-                            Faculity = row["KHOA QL"].ToString().Trim(),
+                            FacultyId = row["KHOA QL"].ToString().Trim(),
                             IsLab = row["THỰC HÀNH"].ToString().Trim() == "1" ? true : false,
                         };
                         subjects.Add(subject);
@@ -98,28 +62,54 @@ namespace ToUs.Models
             return subjects;
         }
 
-        private static List<Teacher> GetAllTeachers()
+        private static List<Teacher> GetTeachers(DataRow dataRow)
+        {
+            DataTable dt = dataRow.Table;
+            List<Teacher> teachers = null;
+            char[] splitChars = { '\n' };
+            if (dt.Columns.Contains("MÃ GIẢNG VIÊN") && dt.Columns.Contains("TÊN GIẢNG VIÊN"))
+            {
+                teachers = new List<Teacher>();
+                string[] ids = dataRow["MÃ GIẢNG VIÊN"].ToString().Split(splitChars);
+                string[] names = dataRow["TÊN GIẢNG VIÊN"].ToString().Split(splitChars);
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    if (ids[i].Trim() != "")
+                    {
+                        Teacher teacher = new Teacher()
+                        {
+                            Id = ids[i].Trim(),
+                            Name = names[i].Trim(),
+                            IsContracted = true,
+                        };
+                        teachers.Add(teacher);
+                    }
+                }
+            }
+            return teachers;
+        }
+
+        public static List<Teacher> GetAllTeachers()
         {
             List<Teacher> teachers = new List<Teacher>();
             foreach (DataTable dataTable in _tableCollection)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    string id = row["MÃ GIẢNG VIÊN"].ToString();
-                    if (!String.IsNullOrEmpty(id))
+                    List<Teacher> teacherInRows = GetTeachers(row);
+                    foreach (var teacher in teacherInRows)
                     {
-                        if (!teachers.Any(teacher => teacher.Id == id))
+                        if (!String.IsNullOrEmpty(teacher.Id))
                         {
-                            Teacher teacher = new Teacher()
+                            if (!teachers.Any(teacherItem => teacherItem.Id == teacher.Id))
                             {
-                                Id = id,
-                                Name = row["TÊN GIẢNG VIÊN"].ToString().Trim(),
-                            };
-                            teachers.Add(teacher);
+                                teachers.Add(teacher);
+                            }
                         }
                     }
                 }
             }
+
             return teachers;
         }
 
@@ -131,29 +121,43 @@ namespace ToUs.Models
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    string id = row["MÃ LỚP"].ToString();
+                    string id = row["MÃ LỚP"].ToString().Trim();
+                    int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
+                    int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
+
                     //if not exitsted ma mh then add to subjects
                     if (!String.IsNullOrEmpty(id))
                     {
-                        if (!classes.Any(classToUs => classToUs.Id == id))
+                        if (classes.Any(classChecked => classChecked.Id == id &&
+                                        classChecked.Year == year &&
+                                        classChecked.Semester == semester))
+                        {
+                            int index = classes.FindIndex(classChecked => classChecked.Id == id &&
+                                                                          classChecked.Year == year &&
+                                                                          classChecked.Semester == semester);
+                            string currentDayInWeek = classes[index].DayInWeek;
+                            string currentLession = classes[index].Lession;
+                            classes[index].Lession = currentLession + "|" + row["THỨ"].ToString().Trim();
+                            classes[index].DayInWeek = currentDayInWeek + "|" + row["TIẾT"].ToString().Trim();
+                        }
+                        else
                         {
                             Class classToUs = new Class()
                             {
                                 Id = id,
-                                Semester = int.Parse(row["HỌC KỲ"].ToString().Trim()),
-                                BeginDate = DateTime.Parse(row["NBD"].ToString().Trim()),
-                                EndDate = DateTime.Parse(row["NKT"].ToString().Trim()),
-                                Year = int.Parse(row["NĂM HỌC"].ToString().Trim()),
+                                Semester = semester,
+                                Year = year,
                                 DayInWeek = row["THỨ"].ToString().Trim(),
                                 Room = row["PHÒNG HỌC"].ToString().Trim(),
                                 Lession = row["TIẾT"].ToString().Trim(),
                                 NumberOfStudents = int.Parse(row["SĨ SỐ"].ToString().Trim()),
                                 Frequency = int.Parse(row["CÁCH TUẦN"].ToString().Trim()),
                                 Language = row["NGÔN NGỮ"].ToString().Trim(),
+                                BeginDate = DateTime.Parse(row["NBD"].ToString().Trim()),
+                                EndDate = DateTime.Parse(row["NKT"].ToString().Trim()),
                                 Note = row["GHICHU"].ToString().Trim(),
-                                System = row["HỆ ĐT"].ToString().Trim(),
+                                System = row["HỆ ĐT"].ToString().Trim()
                             };
-
                             classes.Add(classToUs);
                         }
                     }
@@ -162,25 +166,88 @@ namespace ToUs.Models
             return classes;
         }
 
-        public static List<SubjectManager> GetAllSubjectManager()
+        public static List<Faculty> GetAllFaculty()
         {
-            List<SubjectManager> subjectManagers = new List<SubjectManager>();
+            List<Faculty> faculties = new List<Faculty>();
             foreach (DataTable dataTable in _tableCollection)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    var subjectManager = new SubjectManager()
+                    string id = row["KHOA QL"].ToString();
+                    if (!String.IsNullOrEmpty(id))
                     {
-                        SubjectId = row["MÃ MH"].ToString().Trim(),
-                        ClassId = row["MÃ LỚP"].ToString().Trim(),
-                        TeacherId = String.IsNullOrEmpty(row["MÃ GIẢNG VIÊN"].ToString().Trim()) ? null : row["MÃ GIẢNG VIÊN"].ToString().Trim(),
-                        ExcelPath = ExcelReader.FilePath,
-                        IsDelete = false
-                    };
-                    subjectManagers.Add(subjectManager);
+                        if (!faculties.Any(faculty => faculty.Id == id))
+                        {
+                            Faculty faculty = new Faculty()
+                            {
+                                Id = id,
+                                Name = dataTable.Columns.Contains("TÊN KHOA") ? row["TÊN KHOA"].ToString().Trim() : null
+                            };
+                            faculties.Add(faculty);
+                        }
+                    }
                 }
             }
-            return subjectManagers;
+            return faculties;
+        }
+
+        public static List<ClassManager> GetAllClassManager()
+        {
+            List<ClassManager> classManagers = new List<ClassManager>();
+            try
+            {
+                foreach (DataTable dataTable in _tableCollection)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        List<Teacher> teacherInRows = GetTeachers(row);
+
+                        var classManager = new ClassManager()
+                        {
+                            SubjectId = row["MÃ MH"].ToString().Trim(),
+                            ClassId = row["MÃ LỚP"].ToString().Trim(),
+                            IsDelete = false,
+                            Type = ExcelReader.Type,
+                            Semester = int.Parse(row["HỌC KỲ"].ToString().Trim()),
+                            Year = int.Parse(row["NĂM HỌC"].ToString().Trim()),
+                            TeacherId = null
+                        };
+
+                        if (teacherInRows.Count > 0)
+                        {
+                            foreach (var teacher in teacherInRows)
+                            {
+                                if (!String.IsNullOrEmpty(teacher.Id))
+                                    classManager.TeacherId = teacher.Id;
+                                classManagers.Add(classManager);
+                            }
+                        }
+                        else
+                            classManagers.Add(classManager);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return classManagers;
+        }
+
+        private static string[] GetDuplicatePrimaryKeys(string errorMessage)
+        {
+            string[] ids = null;
+            char[] seperatorErrorKeys = { '(', ')' };
+            string[] error = errorMessage.Split(seperatorErrorKeys);
+            if (error.Length == 3)
+            {
+                char[] seperatorPrimaryKeys = { ',' };
+                ids = error[1].Split(seperatorPrimaryKeys);
+                for (int i = 0; i < ids.Length; i++)
+                    ids[i] = ids[i].Trim();
+            }
+            return ids;
         }
 
         private static string GetDuplicateRecordId(string errorMessage)
@@ -190,403 +257,210 @@ namespace ToUs.Models
             string[] result = errorMessage.Split(seperatorChars);
             if (result.Length == 3)
                 id = result[1];
-            //MessageBox.Show(id);
-
             return id;
         }
 
-        public static void ImportSubjectManager()
+        public static object Import<T>(List<T> list, params string[] propertyNameOfPrimaryKes) where T : class
         {
-            _subjectManagers = null;
+            List<T> duplicateValues = new List<T>();
 
-            List<SubjectManager> subjectManagers = GetAllSubjectManager();
-            string invalidRecordId;
+            string[] duplicatePrimaryKeys;
             do
             {
+                duplicatePrimaryKeys = null;
                 try
                 {
-                    invalidRecordId = null;
-                    if (subjectManagers.Count > 0)
+                    if (list.Count > 0)
                     {
-                        DataProvider.Instance.entities.SubjectManagers.BulkInsert(subjectManagers);
-                        DataProvider.Instance.entities.BulkSaveChanges();
-
-                        _subjectManagers = subjectManagers;
+                        using (var context = new TOUSEntities())
+                        {
+                            context.BulkInsert<T>(list);
+                            context.BulkSaveChanges();
+                        }
                     }
                 }
                 catch (Exception e)
                 {
-                    //if (!(e.Message.Contains('(') && e.Message.Contains(')')))
-                    //{
-                    //    MessageBox.Show(e.Message);
-                    //}
-                    invalidRecordId = GetDuplicateRecordId(e.Message);
-                    if (invalidRecordId != null)
+                    duplicatePrimaryKeys = GetDuplicatePrimaryKeys(e.Message);
+                    if (duplicatePrimaryKeys == null || duplicatePrimaryKeys.Length <= 0)
+                        MessageBox.Show(e.Message);
+                    else
                     {
-                        SubjectManager subjectManager = subjectManagers.FirstOrDefault(subjectManagerChecked => subjectManagerChecked.Id.ToString() == invalidRecordId);
-                        if (subjectManager != null)
+                        int propertysLength = propertyNameOfPrimaryKes.Length;
+                        int primaryKeysLength = duplicatePrimaryKeys.Length;
+
+                        var duplicateRecord = list.FirstOrDefault(item =>
                         {
-                            subjectManagers.Remove(subjectManager);
+                            bool isFound = false;
+                            Type type = item.GetType();
+
+                            if (propertyNameOfPrimaryKes.Length != duplicatePrimaryKeys.Length)
+                            {
+                                MessageBox.Show("Bạn truyền dư hoặc thiếu primary key trong lúc import " + type.Name);
+                            }
+                            else
+                            {
+                                int count = 0;
+                                bool[] isCheckeds = new bool[duplicatePrimaryKeys.Length];
+                                for (int i = 0; i < isCheckeds.Length; i++)
+                                    isCheckeds[i] = false;
+
+                                for (int i = 0; i < propertysLength; i++)
+                                {
+                                    string propertyName = propertyNameOfPrimaryKes[i];
+                                    string propertyValue = type.GetProperty(propertyName)
+                                                                 .GetValue(item).ToString();
+                                    for (int j = 0; j < primaryKeysLength; j++)
+                                    {
+                                        string primaryKey = duplicatePrimaryKeys[j];
+
+                                        if (isCheckeds[j] == false && propertyValue == primaryKey)
+                                        {
+                                            count++;
+                                            isCheckeds[j] = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (count == propertysLength)
+                                    isFound = true;
+                            }
+                            return isFound;
+                        });
+                        if (duplicateRecord != null)
+                        // Cái này để loại bỏ dữ liệu bị trùng
+                        {
+                            duplicateValues.Add(duplicateRecord);
+                            list.Remove(duplicateRecord);
                         }
                     }
                 }
-            } while (invalidRecordId != null);
+            } while (duplicatePrimaryKeys != null);
+
+            return duplicateValues;
         }
 
-        public static async Task ImportSubjectManagerAsync()
+        public static async Task<object> ImportAsync<T>(List<T> list, CancellationToken cancellationToken = default, params string[] propertyNameOfPrimaryKes) where T : class
         {
-            _subjectManagers = null;
+            List<T> duplicateValues = new List<T>();
 
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
             Task task = new Task(async () =>
             {
-                List<SubjectManager> subjectManagers = GetAllSubjectManager();
-                string invalidRecordId;
+                string[] duplicatePrimaryKeys;
                 do
                 {
+                    duplicatePrimaryKeys = null;
                     try
                     {
-                        if (token.IsCancellationRequested)
+                        if (list.Count > 0)
                         {
-                            MessageBox.Show("Subject manager task STOP");
-                            token.ThrowIfCancellationRequested();
-                            return;
-                        }
-                        invalidRecordId = null;
-                        if (subjectManagers.Count > 0)
-                        {
-                            var duplicateRecord = subjectManagers.FirstOrDefault(manager => manager.Id.ToString() == invalidRecordId);
-                            if (duplicateRecord != null)
+                            using (var context = new TOUSEntities())
                             {
-                                subjectManagers.Remove(duplicateRecord);
+                                await context.BulkInsertAsync<T>(list);
+                                await context.BulkSaveChangesAsync();
                             }
-
-                            await DataProvider.Instance.entities.BulkInsertAsync(subjectManagers);
-                            await DataProvider.Instance.entities.BulkSaveChangesAsync();
-
-                            _subjectManagers = subjectManagers;
                         }
                     }
                     catch (Exception e)
                     {
-                        invalidRecordId = GetDuplicateRecordId(e.Message);
-                    }
-                } while (invalidRecordId != null);
-            });
-            task.Start();
-            await task;
-        }
-
-        public static void ImportClass()
-        {
-            _classes = null;
-
-            List<Class> classes = GetAllClasses();
-            string invalidRecordId;
-            do
-            {
-                try
-                {
-                    invalidRecordId = null;
-                    if (classes.Count > 0)
-                    {
-                        DataProvider.Instance.entities.Classes.BulkInsert(classes);
-                        DataProvider.Instance.entities.BulkSaveChanges();
-
-                        _classes = classes;
-                    }
-                }
-                catch (Exception e)
-                {
-                    invalidRecordId = GetDuplicateRecordId(e.Message);
-                    if (invalidRecordId != null)
-                    {
-                        Class classToUs = classes.FirstOrDefault(classChecked => classChecked.Id == invalidRecordId);
-                        if (classToUs != null)
+                        duplicatePrimaryKeys = GetDuplicatePrimaryKeys(e.Message);
+                        if (duplicatePrimaryKeys == null || duplicatePrimaryKeys.Length <= 0)
+                            MessageBox.Show(e.Message);
+                        else
                         {
-                            classes.Remove(classToUs);
-                        }
-                    }
-                }
-            } while (invalidRecordId != null);
-        }
+                            int propertysLength = propertyNameOfPrimaryKes.Length;
+                            int primaryKeysLength = duplicatePrimaryKeys.Length;
 
-        public static async Task ImportClassAsync()
-        {
-            _classes = null;
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
-            Task task = new Task(async () =>
-            {
-                List<Class> classes = GetAllClasses();
-                string invalidRecordId;
-                do
-                {
-                    try
-                    {
-                        if (token.IsCancellationRequested)
-                        {
-                            MessageBox.Show("Class task STOP");
-                            token.ThrowIfCancellationRequested();
-                            return;
-                        }
-                        invalidRecordId = null;
-                        if (classes.Count > 0)
-                        {
-                            var duplicateRecord = classes.FirstOrDefault(classChecked => classChecked.Id == invalidRecordId);
-                            if (duplicateRecord != null)
-                            // Cái này để loại bỏ dữ liệu bị trùng
+                            var duplicateRecord = list.FirstOrDefault(item =>
                             {
-                                classes.Remove(duplicateRecord);
-                            }
-                            await DataProvider.Instance.entities.BulkInsertAsync(classes);
-                            await DataProvider.Instance.entities.BulkSaveChangesAsync();
+                                bool isFound = false;
+                                Type type = item.GetType();
 
-                            _classes = classes;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        invalidRecordId = GetDuplicateRecordId(e.Message);
-                    }
-                } while (invalidRecordId != null);
-            });
-            task.Start();
-            await task;
-        }
+                                if (propertyNameOfPrimaryKes.Length != duplicatePrimaryKeys.Length)
+                                {
+                                    MessageBox.Show("Bạn truyền dư hoặc thiếu primary key trong lúc import " + type.Name);
+                                }
+                                else
+                                {
+                                    int count = 0;
+                                    bool[] isCheckeds = new bool[duplicatePrimaryKeys.Length];
+                                    for (int i = 0; i < isCheckeds.Length; i++)
+                                        isCheckeds[i] = false;
 
-        public static void ImportTeacher()
-        {
-            _teachers = null;
-            List<Teacher> teachers = GetAllTeachers();
+                                    for (int i = 0; i < propertysLength; i++)
+                                    {
+                                        string propertyName = propertyNameOfPrimaryKes[i];
+                                        PropertyInfo propertyInfo = type.GetProperty(propertyName);
+                                        if (propertyInfo != null)
+                                        {
+                                            string propertyValue = propertyInfo.GetValue(item).ToString();
+                                            for (int j = 0; j < primaryKeysLength; j++)
+                                            {
+                                                string primaryKey = duplicatePrimaryKeys[j];
 
-            string invalidRecordId;
-            do
-            {
-                try
-                {
-                    invalidRecordId = null;
-                    if (teachers.Count > 0)
-                    {
-                        DataProvider.Instance.entities.BulkInsert(teachers);
-                        DataProvider.Instance.entities.BulkSaveChanges();
-
-                        _teachers = teachers;
-                    }
-                }
-                catch (Exception e)
-                {
-                    invalidRecordId = GetDuplicateRecordId(e.Message);
-                    if (invalidRecordId != null)
-                    {
-                        Teacher teacher = teachers.FirstOrDefault(teacherChecked => teacherChecked.Id == invalidRecordId);
-                        if (teacher != null)
-                        {
-                            teachers.Remove(teacher);
-                        }
-                    }
-                }
-            } while (invalidRecordId != null);
-        }
-
-        public static async Task ImportTeacherAsync()
-        {
-            _teachers = null;
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
-            Task task = new Task(async () =>
-            {
-                List<Teacher> teachers = GetAllTeachers();
-                string invalidRecordId;
-                do
-                {
-                    try
-                    {
-                        if (token.IsCancellationRequested)
-                        {
-                            MessageBox.Show("Class task STOP");
-                            token.ThrowIfCancellationRequested();
-                            return;
-                        }
-                        invalidRecordId = null;
-                        if (teachers.Count > 0)
-                        {
-                            var duplicateRecord = teachers.FirstOrDefault(teacher => teacher.Id == invalidRecordId);
+                                                if (isCheckeds[j] == false && propertyValue == primaryKey)
+                                                {
+                                                    count++;
+                                                    isCheckeds[j] = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        //string propertyValue = type.GetProperty(propertyName)
+                                        //                             ?.GetValue(item).ToString();
+                                    }
+                                    if (count == propertysLength)
+                                        isFound = true;
+                                }
+                                return isFound;
+                            });
                             if (duplicateRecord != null)
                             // Cái này để loại bỏ dữ liệu bị trùng
                             {
-                                teachers.Remove(duplicateRecord);
+                                duplicateValues.Add(duplicateRecord);
+                                list.Remove(duplicateRecord);
                             }
-                            await DataProvider.Instance.entities.BulkInsertAsync(teachers);
-                            await DataProvider.Instance.entities.BulkSaveChangesAsync();
-
-                            _teachers = teachers;
                         }
                     }
-                    catch (Exception e)
-                    {
-                        invalidRecordId = GetDuplicateRecordId(e.Message);
-                    }
-                } while (invalidRecordId != null);
+                } while (duplicatePrimaryKeys != null);
             });
             task.Start();
-            await task;
-        }
-
-        public static void ImportSubject()
-        {
-            _subjects = null;
-            List<Subject> subjects = GetAllSubjects();
-
-            string invalidRecordId;
-            do
+            if (cancellationToken.IsCancellationRequested)
             {
-                try
-                {
-                    invalidRecordId = null;
-                    if (subjects.Count > 0)
-                    {
-                        DataProvider.Instance.entities.BulkInsert(subjects);
-                        DataProvider.Instance.entities.BulkSaveChanges();
-
-                        _subjects = subjects;
-                    }
-                }
-                catch (Exception e)
-                {
-                    invalidRecordId = GetDuplicateRecordId(e.Message);
-                    if (invalidRecordId != null)
-                    {
-                        Subject subject = subjects.FirstOrDefault(subjectChecked => subjectChecked.Id == invalidRecordId);
-                        if (subject != null)
-                        {
-                            subjects.Remove(subject);
-                        }
-                    }
-                }
-            } while (invalidRecordId != null);
-        }
-
-        public static async Task ImportSubjectAsync()
-        {
-            _subjects = null;
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
-            Task task = new Task(async () =>
-            {
-                List<Subject> subjects = GetAllSubjects();
-                string invalidRecordId;
-                do
-                {
-                    try
-                    {
-                        if (token.IsCancellationRequested)
-                        {
-                            MessageBox.Show("Class task STOP");
-                            token.ThrowIfCancellationRequested();
-                            return;
-                        }
-                        invalidRecordId = null;
-                        if (subjects.Count > 0)
-                        {
-                            var duplicateRecord = subjects.FirstOrDefault(subject => subject.Id == invalidRecordId);
-                            if (duplicateRecord != null) // Cái này để loại bỏ dữ liệu bị trùng
-                            {
-                                subjects.Remove(duplicateRecord);
-                            }
-                            await DataProvider.Instance.entities.BulkInsertAsync(subjects);
-                            await DataProvider.Instance.entities.BulkSaveChangesAsync();
-
-                            _subjects = subjects;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        invalidRecordId = GetDuplicateRecordId(e.Message);
-                    }
-                } while (invalidRecordId != null);
-            });
-            task.Start();
+                MessageBox.Show($"{typeof(T).Name} Importing Stop");
+                throw new TaskCanceledException(task);
+            }
             await task;
+            return duplicateValues;
         }
 
         public static async Task ImportToDBAsync()
         {
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
             try
             {
-                Task subjectTask = ImportSubjectAsync();
-                Task teacherTask = ImportTeacherAsync();
-                Task classTask = ImportClassAsync();
-                Task subjectManagerTask = ImportSubjectManagerAsync();
-
-                await Task.Delay(3000);
-                //await classTask;
-                await Task.WhenAll(subjectTask, teacherTask, classTask, subjectManagerTask);
-
+                await ImportAsync<Faculty>(GetAllFaculty(), CancellationToken.None, "Id");
+                Task<object> subjectTask = ImportAsync<Subject>(GetAllSubjects(), CancellationToken.None, "Id");
+                Task<object> teacherTask = ImportAsync<Teacher>(GetAllTeachers(), CancellationToken.None, "Id");
+                Task<object> classTask = ImportAsync<Class>(GetAllClasses(), CancellationToken.None, "Id", "Year", "Semester");
+                await Task.WhenAll(subjectTask, teacherTask, classTask);
+                await ImportAsync<ClassManager>(GetAllClassManager(), CancellationToken.None, "Id");
                 MessageBox.Show("File đã được load thành công");
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
-
-            //await classTask;
         }
-
-        //public static async Task ImportAsync(Object obj)
-        //{
-        //    _subjects = null;
-        //    var tokenSource = new CancellationTokenSource();
-        //    var token = tokenSource.Token;
-        //    Task task = new Task(async () =>
-        //    {
-        //        List<Subject> subjects = GetAllSubjects();
-        //        string invalidRecordId;
-        //        do
-        //        {
-        //            try
-        //            {
-        //                if (token.IsCancellationRequested)
-        //                {
-        //                    MessageBox.Show("Class task STOP");
-        //                    token.ThrowIfCancellationRequested();
-        //                    return;
-        //                }
-        //                invalidRecordId = null;
-        //                if (subjects.Count > 0)
-        //                {
-        //                    var duplicateRecord = subjects.FirstOrDefault(subject => subject.Id == invalidRecordId);
-        //                    if (duplicateRecord != null) // Cái này để loại bỏ dữ liệu bị trùng
-        //                    {
-        //                        subjects.Remove(duplicateRecord);
-        //                    }
-        //                    await DataProvider.Instance.entities.BulkInsertAsync(subjects);
-        //                    await DataProvider.Instance.entities.BulkSaveChangesAsync();
-
-        //                    _subjects = subjects;
-        //                }
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                invalidRecordId = GetDuplicateRecordId(e.Message);
-        //            }
-        //        } while (invalidRecordId != null);
-        //    });
-        //    task.Start();
-        //    await task;
-        //}
 
         public static void ImportToDB()
         {
             try
             {
-                ImportSubject();
-                ImportTeacher();
-                ImportClass();
-                ImportSubjectManager();
+                Import<Faculty>(GetAllFaculty(), "Id");
+                Import<Subject>(GetAllSubjects(), "Id");
+                Import<Teacher>(GetAllTeachers(), "Id");
+                Import<Class>(GetAllClasses(), "Id", "Year", "Semester");
+                Import<ClassManager>(GetAllClassManager(), "Id");
                 MessageBox.Show("File đã được load thành công");
             }
             catch (Exception e)
@@ -598,7 +472,9 @@ namespace ToUs.Models
 
     public static class ExcelReader
     {
-        private const string STORAGE_RELATIVE_PATH = @".\..\..\Resources\Clients\Excels";
+        private static readonly string[] SUBJECT_ID_HEADER_KEYS = { "MÃ MÔN HỌC" };
+
+        private const string STORAGE_RELATIVE_PATH = @".\..\..\Resources\Temps\Excels";
         private const string FORMAT = @".xlsx";
         private const string STORED_FILE_NAME_SUFFIEX = @"_ToUs_";
         private static readonly string[] LANGUAGES = { "EN", "VN", "JP" };
@@ -606,6 +482,7 @@ namespace ToUs.Models
         private static string _path = String.Empty;
         private static bool _noInvalidRow = false;
         private static bool _noInvalidColumn = false;
+        public static string Type { get; set; }
 
         public static string FilePath
         {
@@ -621,9 +498,9 @@ namespace ToUs.Models
         {
             get
             {
-                return Directory.Exists(STORAGE_RELATIVE_PATH) ?
+                return System.IO.Directory.Exists(STORAGE_RELATIVE_PATH) ?
                     Path.GetFullPath(STORAGE_RELATIVE_PATH) :
-                    Directory.CreateDirectory(STORAGE_RELATIVE_PATH).ToString();
+                    System.IO.Directory.CreateDirectory(STORAGE_RELATIVE_PATH).ToString();
             }
         }
 
@@ -637,17 +514,20 @@ namespace ToUs.Models
             }
         }
 
-        public static bool Open(string path)
+        public static bool Open(string path, string type)
         {
             try
             {
                 _noInvalidColumn = false;
                 _noInvalidRow = false;
+                //_path = SaveToSystem(path);
+                Type = type;
                 _path = SaveToSystem(path);
-
                 //Open system file amd returns it as a stream
                 using (FileStream stream = File.Open(_path, FileMode.Open, FileAccess.Read))
                 {
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
                         var result = reader.AsDataSet(new ExcelDataSetConfiguration()
@@ -661,6 +541,8 @@ namespace ToUs.Models
                         _dataTableCollection = result.Tables;
                     }
                 }
+                //Create move temp file after open
+                RemoveTempFile();
                 if (!IsTimeManagementExcelFile())
                 {
                     throw new NotCorrectFileException();
@@ -670,40 +552,50 @@ namespace ToUs.Models
             catch (FileNotFoundException fileNotFound)
             {
                 MessageBox.Show(fileNotFound.Message);
-                File.Delete(_path);
+                //File.Delete(_path);
                 return false;
             }
             catch (NotCorrectFileException notCorrectFile)
             {
                 MessageBox.Show(notCorrectFile.Message);
-                File.Delete(_path);
+                //File.Delete(_path);
                 return false;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                File.Delete(_path);
+                //File.Delete(_path);
                 return false;
             }
         }
 
         private static bool IsTimeManagementExcelFile()
         {
-            string[] wordKeys = { "Time", "Management", "THỜI KHÓA BIỂU", "DANH SÁCH LỚP" };
-            foreach (DataTable dataTable in _dataTableCollection)
+            try
             {
-                if (dataTable.Rows.Count < 10)
-                    return false;
-                for (int i = 0; i < 10; i++)
+                string[] wordKeys = { "Time", "Management", "THỜI KHÓA BIỂU", "DANH SÁCH LỚP" };
+                foreach (DataTable table in _dataTableCollection)
                 {
-                    foreach (DataColumn dataColumn in dataTable.Columns)
+                    foreach (DataColumn column in table.Columns)
                     {
-                        if (wordKeys.Any(wordKey => dataTable.Rows[i][dataColumn].ToString().Contains(wordKey)))
+                        if (wordKeys.Any(wordKey => column.ColumnName.ToString().ToLower().Contains(wordKey.ToLower())))
                             return true;
                     }
+                    for (int i = 0; i < 10; i++)
+                    {
+                        foreach (DataColumn column in table.Columns)
+                        {
+                            if (wordKeys.Any(wordKey => table.Rows[i][column].ToString().ToLower().Contains(wordKey.ToLower())))
+                                return true;
+                        }
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         private static bool IsRowInvalid(DataRow row)
@@ -745,6 +637,8 @@ namespace ToUs.Models
 
         private static void RemoveInvalidRowData(DataTable dataTable)
         {
+            if (dataTable == null)
+                return;
             dataTable.Rows.Cast<DataRow>().Where(IsRowInvalid).ToList().ForEach(r => r.Delete());
             dataTable.AcceptChanges();
         }
@@ -754,14 +648,20 @@ namespace ToUs.Models
         /// </summary>
         private static void RemoveInvalidRowData()
         {
+            List<DataTable> emptyTables = new List<DataTable>();
             if (_noInvalidRow == false)
             {
                 foreach (DataTable table in _dataTableCollection)
                 {
-                    table.Rows.Cast<DataRow>().Where(IsRowInvalid).ToList().ForEach(r => r.Delete());
-                    table.AcceptChanges();
+                    //table.Rows.Cast<DataRow>().Where(IsRowInvalid).ToList().ForEach(r => r.Delete());
+                    //table.AcceptChanges();
+                    RemoveInvalidRowData(table);
                     _noInvalidRow = true;
+                    if (table.Rows.Count < 2)
+                        emptyTables.Add(table);
                 }
+                foreach (var table in emptyTables)
+                    _dataTableCollection.Remove(table);
             }
         }
 
@@ -800,8 +700,11 @@ namespace ToUs.Models
 
         private static void FormatColumn(DataTable dataTable)
         {
+            if (dataTable == null)
+                return;
             if (!_noInvalidRow)
                 RemoveInvalidRowData(dataTable);
+            //Do nothing if no data row
 
             //format language column
             ChangeHeaderData(() => dataTable.Columns.Cast<DataColumn>().Where(IsLangugeColumn).ToList().FirstOrDefault(), "NGÔN NGỮ");
@@ -813,11 +716,11 @@ namespace ToUs.Models
             ChangeHeaderData(() => dataTable.Columns.Cast<DataColumn>()
                                                     .Where(c => c.Table.Rows[0][c].ToString().Trim() == "TỐ TC")
                                                     .ToList().FirstOrDefault(), "SỐ TC");
-            string invalidColumnName = dataTable.Columns.Cast<DataColumn>()
-                                                        .Where(c => String.IsNullOrEmpty(c.Table.Rows[0][c].ToString().Trim()))
-                                                        .ToList().FirstOrDefault()?.ColumnName;
-            if (!String.IsNullOrEmpty(invalidColumnName))
-                dataTable.Columns.Remove(invalidColumnName);
+            List<DataColumn> invalidColumns = dataTable.Columns.Cast<DataColumn>()
+                                                        .Where(c => String.IsNullOrEmpty(c.Table.Rows[0][c].ToString().Trim()) || c.Table.Rows[0][c].ToString().Trim() == "Đã ĐK")
+                                                        .ToList();
+            foreach (DataColumn column in invalidColumns)
+                dataTable.Columns.Remove(column);
             dataTable.AcceptChanges();
         }
 
@@ -835,19 +738,29 @@ namespace ToUs.Models
         /// <param name="dataTable"> </param>
         private static void SetColumnName(DataTable dataTable)
         {
+            if (dataTable == null)
+                return;
             if (!_noInvalidRow)
                 RemoveInvalidRowData(dataTable);
             if (!_noInvalidColumn)
                 FormatColumn(dataTable);
-            for (int i = 0; i < dataTable.Columns.Count; i++)
+            //Do nothing if no data row
+            try
             {
-                string newName = dataTable.Rows[0][i].ToString();
-                if (!String.IsNullOrEmpty(newName))
-                    dataTable.Columns[i].ColumnName = newName;
-            }
-            dataTable.Rows[0].Delete();
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    string newName = dataTable.Rows[0][i].ToString();
+                    if (!String.IsNullOrEmpty(newName))
+                        dataTable.Columns[i].ColumnName = newName;
+                }
+                dataTable.Rows[0].Delete();
 
-            dataTable.AcceptChanges();
+                dataTable.AcceptChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -900,6 +813,14 @@ namespace ToUs.Models
             return Path.Combine(StoragePath, newFileName);
         }
 
+        public static string GenerateSystemPath(string oldPath, string adminReposPath)
+        {
+            int nextNum = GetLastSystemNumFile() + 1;
+            string oldFileName = Path.GetFileNameWithoutExtension(oldPath);
+            string newFileName = oldFileName + adminReposPath + nextNum.ToString() + FORMAT;
+            return Path.Combine(StoragePath, newFileName);
+        }
+
         /// <summary>
         /// Save a copy of excel file to excel storage with the ToUs rule
         /// </summary>
@@ -915,6 +836,37 @@ namespace ToUs.Models
             {
                 MessageBox.Show(e.Message);
                 return null;
+            }
+        }
+
+        public static string SaveToSystem(string oldPath, string adminReposPath)
+        {
+            try
+            {
+                string newPath = GenerateSystemPath(oldPath, adminReposPath);
+                File.Copy(oldPath, newPath);
+                return newPath;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return null;
+            }
+        }
+
+        public static bool RemoveTempFile()
+        {
+            try
+            {
+                foreach (string path in Directory.GetFiles(StoragePath))
+                {
+                    File.Delete(path);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

@@ -12,12 +12,12 @@ namespace ToUs.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SubjectManager
+    public partial class ClassManager
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SubjectManager()
+        public ClassManager()
         {
-            this.TimeTables = new HashSet<TimeTable>();
+            this.TableManagers = new HashSet<TableManager>();
         }
     
         public int Id { get; set; }
@@ -25,12 +25,14 @@ namespace ToUs.Models
         public string TeacherId { get; set; }
         public string ClassId { get; set; }
         public bool IsDelete { get; set; }
-        public string ExcelPath { get; set; }
+        public string Type { get; set; }
+        public int Year { get; set; }
+        public int Semester { get; set; }
     
         public virtual Class Class { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TimeTable> TimeTables { get; set; }
+        public virtual ICollection<TableManager> TableManagers { get; set; }
     }
 }

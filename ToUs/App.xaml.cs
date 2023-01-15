@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using ToUs.View.AuthenticateView;
 
 namespace ToUs
@@ -16,7 +10,7 @@ namespace ToUs
     {
         protected void ApplicationStart(object sender, StartupEventArgs e)
         {
-            var authenticateView =  new AuthenticateView();
+            var authenticateView = new AuthenticateView();
             authenticateView.Show();
             authenticateView.IsVisibleChanged += (s, ev) =>
             {
