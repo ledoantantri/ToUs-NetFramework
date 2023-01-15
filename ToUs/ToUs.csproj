@@ -105,12 +105,16 @@
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModel\AuthenticateViewModel\AuthenticateViewModel.cs" />
+    <Compile Include="ViewModel\EntryViewModel\EntryViewModel.cs" />
     <Compile Include="ViewModel\HomePageViewModel\UserModeViewModel.cs" />
     <Compile Include="ViewModel\MainViewViewModel.cs" />
     <Compile Include="ViewModel\PreviewViewModel\PreviewViewModel.cs" />
     <Compile Include="ViewModel\ScheduleViewModel\NormalScheduleViewModel.cs" />
     <Compile Include="View\AuthenticateView\AuthenticateView.xaml.cs">
       <DependentUpon>AuthenticateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EntryView\EntryView.xaml.cs">
+      <DependentUpon>EntryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HomePageView\UserModeView.xaml.cs">
       <DependentUpon>UserModeView.xaml</DependentUpon>
@@ -187,6 +191,10 @@
     <Page Include="View\AuthenticateView\AuthenticateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\EntryView\EntryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HomePageView\UserModeView.xaml">
       <Generator>MSBuild:Compile</Generator>
