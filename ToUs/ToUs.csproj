@@ -110,6 +110,7 @@
     <Compile Include="ViewModel\MainViewViewModel.cs" />
     <Compile Include="ViewModel\PreviewViewModel\PreviewViewModel.cs" />
     <Compile Include="ViewModel\ScheduleViewModel\NormalScheduleViewModel.cs" />
+    <Compile Include="ViewModel\SignInViewModel\SignInViewModel.cs" />
     <Compile Include="View\AuthenticateView\AuthenticateView.xaml.cs">
       <DependentUpon>AuthenticateView.xaml</DependentUpon>
     </Compile>
@@ -131,6 +132,9 @@
     </Compile>
     <Compile Include="View\ScheduleView\NormalScheduleView.xaml.cs">
       <DependentUpon>NormalScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SignInView\SignInView.xaml.cs">
+      <DependentUpon>SignInView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Animation\Animation.xaml">
       <SubType>Designer</SubType>
@@ -209,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ScheduleView\NormalScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SignInView\SignInView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
