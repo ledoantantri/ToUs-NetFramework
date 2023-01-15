@@ -16,10 +16,9 @@
         AllowsTransparency="True"
         ResizeMode="NoResize"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.FontFamily="Segoe UI"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="Segoe UI">
 
     <!--<Window.DataContext>
         <viewmodel:EntryViewModel/>
@@ -31,7 +30,8 @@
     </Window.Resources>
 
     <Grid>
-        <Border Width="1920"
+        <Border x:Name="Entry"
+                Width="1920"
                 Height="1080"
                 CornerRadius="30"
                 LayoutTransform="{StaticResource windowScaleTransform}"
@@ -235,13 +235,114 @@
                                    FontWeight="Bold"
                                    Foreground="#665D8C">
                         </TextBlock>
-                        
-                        
- 
                     </Button>
                 </Grid>
-                
             </Grid>
+        </Border>
+
+        <Border x:Name="about_us" 
+                Width="1760"
+                Height="800"
+                CornerRadius="30"
+                Background="#F5F5F5"
+                Margin="80,1216,80,-936">
+
+
+            <TextBlock Width="1600"
+                       Height="700"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       TextAlignment="Justify">
+                <Span Name="Paragraph_01">
+                    <Span Foreground="#665D8C">
+                        <Run FontSize="50" FontWeight="Bold"> ToUs </Run>
+                        <Run> </Run>
+                        <Run FontSize="36" FontWeight="SemiBold"> là gì? </Run>    
+                    </Span>
+                    
+                    <LineBreak/>
+                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="10"></TextBlock>
+                    <LineBreak/>
+                    
+                    <Span FontSize="30" 
+                          Foreground="#666666">
+                        <Run Foreground="#665D8C" FontWeight="Bold"> ToUs </Run>
+                        <Italic> 
+                            (<Run Foreground="#665D8C" FontWeight="Bold">T</Run>imetable 
+                            <Run Foreground="#665D8C" FontWeight="Bold">o</Run>rganizer for 
+                            <Run Foreground="#665D8C" FontWeight="Bold">U</Run>IT 
+                            <Run Foreground="#665D8C" FontWeight="Bold">s</Run>tudents) 
+                        </Italic>
+                        là một ứng dụng hỗ trợ sinh viên Trường Đại học Công nghệ Thông tin - ĐHQG-HCM (UIT) có thể sắp xếp thử (demo) thời khóa biểu (TKB) cho học kỳ sắp tới dựa vào danh sách TKB dự kiến của trường (không tính các lớp mở thêm trong khoảng thời gian sau đó).
+                    </Span> 
+                    
+                    
+                    <LineBreak/>
+                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="10"></TextBlock>
+                    <LineBreak/>
+                    
+                    <Span FontSize="30" 
+                          Foreground="#666666">
+                        <Run Foreground="#665D8C" FontWeight="Bold"> ToUs </Run>
+                        là sản phẩm đồ án cuối kì môn Lập trình trực quan (IT008) của nhóm bao gồm: 
+                        <Bold> (1) Vũ Hoàng Quân </Bold> - 20521799, 
+                        <Bold> (2) Nguyễn Phú Thịnh </Bold>  - 21522638, 
+                        <Bold> (3) Lê Đoàn Tấn Trí </Bold> - 21522702, 
+                        <Bold> (4) Nguyễn Văn Quốc Tuấn </Bold> - 21522758 và 
+                        <Bold> (5) Trần Võ Sơn Tùng </Bold> - 21522772.
+                    </Span>
+                    
+                    <LineBreak/>
+                    <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="40"></TextBlock>
+                    <LineBreak/>
+                    
+                    <Span FontSize="36"
+                          FontWeight="Bold"
+                          Foreground="#665D8C">
+                        Chức năng:
+                    </Span>
+                    
+                    <LineBreak/>
+                    
+                    <Span FontSize="30" 
+                          Foreground="#666666">
+                        <Run FontWeight="SemiBold"> Sắp xếp TKB: </Run>
+                        <Italic> <Run FontWeight="SemiBold"> Chọn Học kỳ/năm → Chọn Mã lớp muốn học → Xem TKB </Run></Italic>
+                        
+                        <LineBreak/>
+                        Thủ công
+                        <LineBreak/>
+                        Tự động: Chọn Môn và Thứ muốn học → Chương trình tự động sắp xếp TKB phù hợp (Cần 
+                        <Underline>
+                            <Italic>
+                                Đăng nhập
+                            </Italic>
+                        </Underline>)
+                    </Span>
+                    
+                    <LineBreak/>
+                    
+                    <Span FontSize="30" 
+                          Foreground="#666666">
+                        <Run FontWeight="SemiBold"> Tiện ích bổ sung (Extensions): </Run>
+                        
+                        <LineBreak/>
+                        <Italic>
+                            <Run Foreground="#665D8C" FontWeight="SemiBold"> ToDo: </Run>    
+                        </Italic>
+                        Tạo một danh sách các việc cần làm dựa theo môn học đã chọn
+                        
+                        <LineBreak/>
+                        <Italic>
+                            <Run Foreground="#665D8C" FontWeight="SemiBold"> ToNote: </Run>    
+                        </Italic>
+                        Ghi chú nội dung môn học
+                    </Span>
+                  
+                </Span>
+                
+            </TextBlock>
         </Border>
     </Grid>
 </Window>
