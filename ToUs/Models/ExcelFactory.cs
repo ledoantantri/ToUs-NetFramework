@@ -37,77 +37,99 @@ namespace ToUs.Models
 
         public static List<Subject> GetAllSubjects()
         {
-            List<Subject> subjects = new List<Subject>();
-            foreach (DataTable dataTable in _tableCollection)
+            var subjects = new List<Subject>();
+            try
             {
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataTable dataTable in _tableCollection)
                 {
-                    string id = row["MÃ MH"].ToString();
-
-                    if (!subjects.Any(subject => subject.Id == id))
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        Subject subject = new Subject()
+                        string id = row["MÃ MH"].ToString();
+
+                        if (!subjects.Any(subject => subject.Id == id))
                         {
-                            Id = id,
-                            Name = row["TÊN MÔN HỌC"].ToString().Trim(),
-                            NumberOfDigits = int.Parse(row["SỐ TC"].ToString().Trim()),
-                            HTGD = row["HTGD"].ToString().Trim(),
-                            FacultyId = row["KHOA QL"].ToString().Trim(),
-                            IsLab = row["THỰC HÀNH"].ToString().Trim() == "1" ? true : false,
-                        };
-                        subjects.Add(subject);
+                            Subject subject = new Subject()
+                            {
+                                Id = id,
+                                Name = row["TÊN MÔN HỌC"].ToString().Trim(),
+                                NumberOfDigits = int.Parse(row["SỐ TC"].ToString().Trim()),
+                                HTGD = row["HTGD"].ToString().Trim(),
+                                FacultyId = row["KHOA QL"].ToString().Trim(),
+                                IsLab = row["THỰC HÀNH"].ToString().Trim() == "1" ? true : false,
+                            };
+                            subjects.Add(subject);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("GetAllSubjects Method: " + e.Message);
             }
             return subjects;
         }
 
         private static List<Teacher> GetTeachers(DataRow dataRow)
         {
-            DataTable dt = dataRow.Table;
             List<Teacher> teachers = null;
-            char[] splitChars = { '\n' };
-            if (dt.Columns.Contains("MÃ GIẢNG VIÊN") && dt.Columns.Contains("TÊN GIẢNG VIÊN"))
+            try
             {
-                teachers = new List<Teacher>();
-                string[] ids = dataRow["MÃ GIẢNG VIÊN"].ToString().Split(splitChars);
-                string[] names = dataRow["TÊN GIẢNG VIÊN"].ToString().Split(splitChars);
-                for (int i = 0; i < ids.Length; i++)
+                DataTable dt = dataRow.Table;
+                char[] splitChars = { '\n' };
+                if (dt.Columns.Contains("MÃ GIẢNG VIÊN") && dt.Columns.Contains("TÊN GIẢNG VIÊN"))
                 {
-                    if (ids[i].Trim() != "")
+                    teachers = new List<Teacher>();
+                    string[] ids = dataRow["MÃ GIẢNG VIÊN"].ToString().Split(splitChars);
+                    string[] names = dataRow["TÊN GIẢNG VIÊN"].ToString().Split(splitChars);
+                    for (int i = 0; i < ids.Length; i++)
                     {
-                        Teacher teacher = new Teacher()
+                        if (ids[i].Trim() != "")
                         {
-                            Id = ids[i].Trim(),
-                            Name = names[i].Trim(),
-                            IsContracted = true,
-                        };
-                        teachers.Add(teacher);
+                            Teacher teacher = new Teacher()
+                            {
+                                Id = ids[i].Trim(),
+                                Name = names[i].Trim(),
+                                IsContracted = true,
+                            };
+                            teachers.Add(teacher);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("GetTeachers Method: " + ex.Message);
+            }
+
             return teachers;
         }
 
         public static List<Teacher> GetAllTeachers()
         {
-            List<Teacher> teachers = new List<Teacher>();
-            foreach (DataTable dataTable in _tableCollection)
+            var teachers = new List<Teacher>();
+            try
             {
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataTable dataTable in _tableCollection)
                 {
-                    List<Teacher> teacherInRows = GetTeachers(row);
-                    foreach (var teacher in teacherInRows)
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        if (!String.IsNullOrEmpty(teacher.Id))
+                        List<Teacher> teacherInRows = GetTeachers(row);
+                        foreach (var teacher in teacherInRows)
                         {
-                            if (!teachers.Any(teacherItem => teacherItem.Id == teacher.Id))
+                            if (!String.IsNullOrEmpty(teacher.Id))
                             {
-                                teachers.Add(teacher);
+                                if (!teachers.Any(teacherItem => teacherItem.Id == teacher.Id))
+                                {
+                                    teachers.Add(teacher);
+                                }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("GetAllTechers Method: " + ex.Message);
             }
 
             return teachers;
@@ -116,78 +138,90 @@ namespace ToUs.Models
         public static List<Class> GetAllClasses()
         {
             var classes = new List<Class>();
-            //List<Class> classes = new List<Class>();
-            foreach (DataTable dataTable in _tableCollection)
+            try
             {
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataTable dataTable in _tableCollection)
                 {
-                    string id = row["MÃ LỚP"].ToString().Trim();
-                    int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
-                    int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
-
-                    //if not exitsted ma mh then add to subjects
-                    if (!String.IsNullOrEmpty(id))
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        if (classes.Any(classChecked => classChecked.Id == id &&
-                                        classChecked.Year == year &&
-                                        classChecked.Semester == semester))
+                        string id = row["MÃ LỚP"].ToString().Trim();
+                        int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
+                        int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
+
+                        //if not exitsted ma mh then add to subjects
+                        if (!String.IsNullOrEmpty(id))
                         {
-                            int index = classes.FindIndex(classChecked => classChecked.Id == id &&
-                                                                          classChecked.Year == year &&
-                                                                          classChecked.Semester == semester);
-                            string currentDayInWeek = classes[index].DayInWeek;
-                            string currentLession = classes[index].Lession;
-                            classes[index].Lession = currentLession + "|" + row["THỨ"].ToString().Trim();
-                            classes[index].DayInWeek = currentDayInWeek + "|" + row["TIẾT"].ToString().Trim();
-                        }
-                        else
-                        {
-                            Class classToUs = new Class()
+                            int index = -1;
+                            if (0 <= (index = classes.FindIndex(classChecked => classChecked.Id == id &&
+                                                                              classChecked.Year == year &&
+                                                                              classChecked.Semester == semester)))
                             {
-                                Id = id,
-                                Semester = semester,
-                                Year = year,
-                                DayInWeek = row["THỨ"].ToString().Trim(),
-                                Room = row["PHÒNG HỌC"].ToString().Trim(),
-                                Lession = row["TIẾT"].ToString().Trim(),
-                                NumberOfStudents = int.Parse(row["SĨ SỐ"].ToString().Trim()),
-                                Frequency = int.Parse(row["CÁCH TUẦN"].ToString().Trim()),
-                                Language = row["NGÔN NGỮ"].ToString().Trim(),
-                                BeginDate = DateTime.Parse(row["NBD"].ToString().Trim()),
-                                EndDate = DateTime.Parse(row["NKT"].ToString().Trim()),
-                                Note = row["GHICHU"].ToString().Trim(),
-                                System = row["HỆ ĐT"].ToString().Trim()
-                            };
-                            classes.Add(classToUs);
+                                string currentDayInWeek = classes[index].DayInWeek;
+                                string currentLession = classes[index].Lession;
+                                classes[index].Lession = currentLession + "|" + row["THỨ"].ToString().Trim();
+                                classes[index].DayInWeek = currentDayInWeek + "|" + row["TIẾT"].ToString().Trim();
+                            }
+                            else
+                            {
+                                Class classToUs = new Class()
+                                {
+                                    Id = id,
+                                    Semester = semester,
+                                    Year = year,
+                                    DayInWeek = row["THỨ"].ToString().Trim(),
+                                    Room = row["PHÒNG HỌC"].ToString().Trim(),
+                                    Lession = row["TIẾT"].ToString().Trim(),
+                                    NumberOfStudents = int.Parse(row["SĨ SỐ"].ToString().Trim()),
+                                    Frequency = int.Parse(row["CÁCH TUẦN"].ToString().Trim()),
+                                    Language = row["NGÔN NGỮ"].ToString().Trim(),
+                                    BeginDate = DateTime.Parse(row["NBD"].ToString().Trim()),
+                                    EndDate = DateTime.Parse(row["NKT"].ToString().Trim()),
+                                    Note = row["GHICHU"].ToString().Trim(),
+                                    System = row["HỆ ĐT"].ToString().Trim()
+                                };
+                                classes.Add(classToUs);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("GetAllClass Method: " + e.Message);
             }
             return classes;
         }
 
         public static List<Faculty> GetAllFaculty()
         {
-            List<Faculty> faculties = new List<Faculty>();
-            foreach (DataTable dataTable in _tableCollection)
+            var faculties = new List<Faculty>();
+            try
             {
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataTable dataTable in _tableCollection)
                 {
-                    string id = row["KHOA QL"].ToString();
-                    if (!String.IsNullOrEmpty(id))
+                    foreach (DataRow row in dataTable.Rows)
                     {
-                        if (!faculties.Any(faculty => faculty.Id == id))
+                        string id = row["KHOA QL"].ToString();
+                        if (!String.IsNullOrEmpty(id))
                         {
-                            Faculty faculty = new Faculty()
+                            if (!faculties.Any(faculty => faculty.Id == id))
                             {
-                                Id = id,
-                                Name = dataTable.Columns.Contains("TÊN KHOA") ? row["TÊN KHOA"].ToString().Trim() : null
-                            };
-                            faculties.Add(faculty);
+                                Faculty faculty = new Faculty()
+                                {
+                                    Id = id,
+                                    Name = dataTable.Columns.Contains("TÊN KHOA") ? row["TÊN KHOA"].ToString().Trim() : null
+                                };
+                                faculties.Add(faculty);
+                            }
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("GetAllFaculty: " + e.Message);
+            }
+
             return faculties;
         }
 
@@ -472,7 +506,11 @@ namespace ToUs.Models
 
     public static class ExcelReader
     {
-        private static readonly string[] SUBJECT_ID_HEADER_KEYS = { "MÃ MÔN HỌC" };
+        #region ColumnHeader
+
+        //private static readonly string[] SUBJECT_ID_HEADER_KEYS = { "MÃ MÔN HỌC" };
+
+        #endregion ColumnHeader
 
         private const string STORAGE_RELATIVE_PATH = @".\..\..\Resources\Temps\Excels";
         private const string FORMAT = @".xlsx";
