@@ -49,6 +49,7 @@
                                            LayoutTransform="{StaticResource windowScaleTransform}" 
                                            VerticalAlignment="Center"/>
 
+        <!--SignIn Button-->
         <Button x:Name="button"
                 RenderTransformOrigin="0.5,0.5"
                 Width="150"
@@ -158,6 +159,7 @@
                                                Margin="0,10,0,745"
                                                Command="{Binding CloseAppCommand}"/>
 
+                <!--Logo Title-->
                 <TextBlock x:Name="textBlock" Margin="187.5,151.5,185.5,562.5" FontSize="72" Text="ToUs" Foreground="#FF665D8C" Width="164" Height="94" FontWeight="Bold" RenderTransformOrigin="0.5,0.5">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
@@ -169,6 +171,7 @@
                     </TextBlock.RenderTransform>
                 </TextBlock>
 
+                <!--Logo Subtitle-->
                 <TextBlock x:Name="textBlock1" 
                            Margin="51.5,247.5,51.5,526" 
                            FontSize="27" 
