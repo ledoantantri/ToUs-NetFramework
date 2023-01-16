@@ -113,8 +113,6 @@ namespace ToUs.ViewModel.HomePageViewModel
                         {
                             await ExcelImportDB.ImportToDBAsync();
                         }
-                        //ExcelImportDB.ImportToDB();
-                        //await ExcelImportDB.ImportToDbWithEnityAsync();
                         else
                             MessageBox.Show("Không thể kết nối đến cơ sở dữ liệu");
                     }

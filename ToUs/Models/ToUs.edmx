@@ -8,10 +8,9 @@
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Semester" />
-            <PropertyRef Name="Year" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="NumberOfStudents" Type="int" />
           <Property Name="Room" Type="varchar" MaxLength="20" />
           <Property Name="Frequency" Type="int" />
@@ -32,11 +31,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubjectId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TeacherId" Type="varchar" MaxLength="20" />
-          <Property Name="ClassId" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="100" />
-          <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="Semester" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -90,10 +87,10 @@
         </EntityType>
         <EntityType Name="TableManager">
           <Key>
-            <PropertyRef Name="TableId" />
+            <PropertyRef Name="TableName" />
             <PropertyRef Name="ClassManagerId" />
           </Key>
-          <Property Name="TableId" Type="int" Nullable="false" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ClassManagerId" Type="int" Nullable="false" />
           <Property Name="PicturePath" Type="nvarchar(max)" />
         </EntityType>
@@ -118,9 +115,9 @@
         </EntityType>
         <EntityType Name="TimeTable">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserDetailId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -156,13 +153,9 @@
           <ReferentialConstraint>
             <Principal Role="Class">
               <PropertyRef Name="Id" />
-              <PropertyRef Name="Year" />
-              <PropertyRef Name="Semester" />
             </Principal>
             <Dependent Role="ClassManager">
               <PropertyRef Name="ClassId" />
-              <PropertyRef Name="Year" />
-              <PropertyRef Name="Semester" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -243,10 +236,10 @@
           <End Role="TableManager" Type="Self.TableManager" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeTable">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="Name" />
             </Principal>
             <Dependent Role="TableManager">
-              <PropertyRef Name="TableId" />
+              <PropertyRef Name="TableName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -428,10 +421,9 @@
         <EntityType Name="Class">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Semester" />
-            <PropertyRef Name="Year" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="NumberOfStudents" Type="Int32" />
           <Property Name="Room" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Frequency" Type="Int32" />
@@ -453,11 +445,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SubjectId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="TeacherId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ClassId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Semester" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Class" Relationship="TOUSModel.Fk_ClassManager_Class" FromRole="ClassManager" ToRole="Class" />
           <NavigationProperty Name="Subject" Relationship="TOUSModel.Fk_ClassManager_Subject" FromRole="ClassManager" ToRole="Subject" />
           <NavigationProperty Name="Teacher" Relationship="TOUSModel.Fk_ClassManager_Teacher" FromRole="ClassManager" ToRole="Teacher" />
@@ -523,10 +513,10 @@
         </EntityType>
         <EntityType Name="TableManager">
           <Key>
-            <PropertyRef Name="TableId" />
+            <PropertyRef Name="TableName" />
             <PropertyRef Name="ClassManagerId" />
           </Key>
-          <Property Name="TableId" Type="Int32" Nullable="false" />
+          <Property Name="TableName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ClassManagerId" Type="Int32" Nullable="false" />
           <Property Name="PicturePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ClassManager" Relationship="TOUSModel.Fk_TableManager_ClassManager" FromRole="TableManager" ToRole="ClassManager" />
@@ -554,9 +544,9 @@
         </EntityType>
         <EntityType Name="TimeTable">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UserDetailId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TableManagers" Relationship="TOUSModel.Fk_TableManager_TimeTable" FromRole="TimeTable" ToRole="TableManager" />
           <NavigationProperty Name="UserDetail" Relationship="TOUSModel.Fk_TimeTable_UserDetail" FromRole="TimeTable" ToRole="UserDetail" />
@@ -590,13 +580,9 @@
           <ReferentialConstraint>
             <Principal Role="Class">
               <PropertyRef Name="Id" />
-              <PropertyRef Name="Year" />
-              <PropertyRef Name="Semester" />
             </Principal>
             <Dependent Role="ClassManager">
               <PropertyRef Name="ClassId" />
-              <PropertyRef Name="Year" />
-              <PropertyRef Name="Semester" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -677,10 +663,10 @@
           <End Type="TOUSModel.TableManager" Role="TableManager" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeTable">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="Name" />
             </Principal>
             <Dependent Role="TableManager">
-              <PropertyRef Name="TableId" />
+              <PropertyRef Name="TableName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -733,6 +719,7 @@
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />
                 <ScalarProperty Name="Room" ColumnName="Room" />
                 <ScalarProperty Name="NumberOfStudents" ColumnName="NumberOfStudents" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -740,8 +727,6 @@
           <EntitySetMapping Name="ClassManagers">
             <EntityTypeMapping TypeName="TOUSModel.ClassManager">
               <MappingFragment StoreEntitySet="ClassManager">
-                <ScalarProperty Name="Semester" ColumnName="Semester" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="ClassId" ColumnName="ClassId" />
@@ -809,7 +794,7 @@
               <MappingFragment StoreEntitySet="TableManager">
                 <ScalarProperty Name="PicturePath" ColumnName="PicturePath" />
                 <ScalarProperty Name="ClassManagerId" ColumnName="ClassManagerId" />
-                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -836,7 +821,7 @@
             <EntityTypeMapping TypeName="TOUSModel.TimeTable">
               <MappingFragment StoreEntitySet="TimeTable">
                 <ScalarProperty Name="UserDetailId" ColumnName="UserDetailId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

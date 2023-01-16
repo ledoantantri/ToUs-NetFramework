@@ -1,5 +1,6 @@
 ﻿using ExcelDataReader;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -152,7 +153,7 @@ namespace ToUs.Models
                         if (!String.IsNullOrEmpty(id))
                         {
                             int index = -1;
-                            if (0 <= (index = classes.FindIndex(classChecked => classChecked.Id == id &&
+                            if (0 <= (index = classes.FindIndex(classChecked => classChecked.ClassId == id &&
                                                                               classChecked.Year == year &&
                                                                               classChecked.Semester == semester)))
                             {
@@ -165,7 +166,7 @@ namespace ToUs.Models
                             {
                                 Class classToUs = new Class()
                                 {
-                                    Id = id,
+                                    ClassId = id,
                                     Semester = semester,
                                     Year = year,
                                     DayInWeek = row["THỨ"].ToString().Trim(),
@@ -189,6 +190,7 @@ namespace ToUs.Models
             {
                 MessageBox.Show("GetAllClass Method: " + e.Message);
             }
+
             return classes;
         }
 
@@ -234,30 +236,55 @@ namespace ToUs.Models
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        List<Teacher> teacherInRows = GetTeachers(row);
+                        string subjectId = row["MÃ MH"].ToString().Trim();
+                        int classIdOfClassManager = -1;
+                        using (var context = new TOUSEntities())
+                        {
+                            int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
+                            int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
+                            string classId = row["MÃ LỚP"].ToString().Trim();
+                            var classFound = context.Classes
+                                .FirstOrDefault(classChecked => classChecked.ClassId == classId &&
+                                                                classChecked.Year == year &&
+                                                                classChecked.Semester == semester
+                                );
+                            if (classFound != null)
+                                classIdOfClassManager = classFound.Id;
+                        }
 
                         var classManager = new ClassManager()
                         {
-                            SubjectId = row["MÃ MH"].ToString().Trim(),
-                            ClassId = row["MÃ LỚP"].ToString().Trim(),
+                            SubjectId = subjectId,
+                            ClassId = classIdOfClassManager,
                             IsDelete = false,
                             Type = ExcelReader.Type,
-                            Semester = int.Parse(row["HỌC KỲ"].ToString().Trim()),
-                            Year = int.Parse(row["NĂM HỌC"].ToString().Trim()),
                             TeacherId = null
                         };
+                        List<Teacher> teacherInRows = GetTeachers(row);
 
                         if (teacherInRows.Count > 0)
                         {
                             foreach (var teacher in teacherInRows)
                             {
-                                if (!String.IsNullOrEmpty(teacher.Id))
-                                    classManager.TeacherId = teacher.Id;
+                                if (!classManagers.Any(manager => manager.ClassId == classIdOfClassManager &&
+                                                          manager.SubjectId == subjectId &&
+                                                          manager.TeacherId == teacher.Id))
+                                {
+                                    if (!String.IsNullOrEmpty(teacher.Id))
+                                    {
+                                        classManager.TeacherId = teacher.Id;
+                                    }
+                                }
                                 classManagers.Add(classManager);
                             }
                         }
                         else
-                            classManagers.Add(classManager);
+                        {
+                            if (!classManagers.Any(manager => manager.ClassId == classIdOfClassManager &&
+                                                          manager.SubjectId == subjectId &&
+                                                          String.IsNullOrEmpty(manager.TeacherId)))
+                                classManagers.Add(classManager);
+                        }
                     }
                 }
             }
@@ -265,21 +292,25 @@ namespace ToUs.Models
             {
                 MessageBox.Show(ex.Message);
             }
-
             return classManagers;
         }
 
-        private static string[] GetDuplicatePrimaryKeys(string errorMessage)
+        private static string[] GetDuplicateKeys(string errorMessage)
         {
             string[] ids = null;
             char[] seperatorErrorKeys = { '(', ')' };
+            char[] removeChars = { '<', '>' };
             string[] error = errorMessage.Split(seperatorErrorKeys);
             if (error.Length == 3)
             {
                 char[] seperatorPrimaryKeys = { ',' };
                 ids = error[1].Split(seperatorPrimaryKeys);
                 for (int i = 0; i < ids.Length; i++)
+                {
+                    foreach (char c in removeChars)
+                        ids[i].Replace(c, ' ');
                     ids[i] = ids[i].Trim();
+                }
             }
             return ids;
         }
@@ -294,14 +325,16 @@ namespace ToUs.Models
             return id;
         }
 
-        public static object Import<T>(List<T> list, params string[] propertyNameOfPrimaryKes) where T : class
+        public static object Import<T>(List<T> list, string[] primaryKeyPropNames,
+            string[] uniqueKeyPropNames = null) where T : class
         {
             List<T> duplicateValues = new List<T>();
 
-            string[] duplicatePrimaryKeys;
+            string[] duplicateKeys;
+
             do
             {
-                duplicatePrimaryKeys = null;
+                duplicateKeys = null;
                 try
                 {
                     if (list.Count > 0)
@@ -315,75 +348,79 @@ namespace ToUs.Models
                 }
                 catch (Exception e)
                 {
-                    duplicatePrimaryKeys = GetDuplicatePrimaryKeys(e.Message);
-                    if (duplicatePrimaryKeys == null || duplicatePrimaryKeys.Length <= 0)
+                    //Get the duplicate key from the error message
+                    duplicateKeys = GetDuplicateKeys(e.Message);
+                    // If have a bug show it to the ui
+                    if (duplicateKeys == null || duplicateKeys.Length <= 0)
                         MessageBox.Show(e.Message);
+                    //Get the numbers of key from duplicate keys
                     else
                     {
-                        int propertysLength = propertyNameOfPrimaryKes.Length;
-                        int primaryKeysLength = duplicatePrimaryKeys.Length;
-
                         var duplicateRecord = list.FirstOrDefault(item =>
                         {
-                            bool isFound = false;
-                            Type type = item.GetType();
-
-                            if (propertyNameOfPrimaryKes.Length != duplicatePrimaryKeys.Length)
+                            int duplicateCount = duplicateKeys.Length;
+                            if (primaryKeyPropNames.Length != duplicateCount &&
+                                duplicateCount != uniqueKeyPropNames.Length)
                             {
-                                MessageBox.Show("Bạn truyền dư hoặc thiếu primary key trong lúc import " + type.Name);
+                                MessageBox.Show("- Bạn truyền dư hoặc thiếu primary key hoặc " +
+                                    "unique key trong lúc import " + item.GetType().Name +
+                                    "\n- Messeage lỗi hiện tại là: " + e.Message);
+                                return false;
                             }
                             else
                             {
-                                int count = 0;
-                                bool[] isCheckeds = new bool[duplicatePrimaryKeys.Length];
-                                for (int i = 0; i < isCheckeds.Length; i++)
-                                    isCheckeds[i] = false;
-
-                                for (int i = 0; i < propertysLength; i++)
+                                if (IsFoundKeys<T>(item, primaryKeyPropNames, duplicateKeys))
                                 {
-                                    string propertyName = propertyNameOfPrimaryKes[i];
-                                    string propertyValue = type.GetProperty(propertyName)
-                                                                 .GetValue(item).ToString();
-                                    for (int j = 0; j < primaryKeysLength; j++)
-                                    {
-                                        string primaryKey = duplicatePrimaryKeys[j];
-
-                                        if (isCheckeds[j] == false && propertyValue == primaryKey)
-                                        {
-                                            count++;
-                                            isCheckeds[j] = true;
-                                            break;
-                                        }
-                                    }
+                                    return true;
                                 }
-                                if (count == propertysLength)
-                                    isFound = true;
+                                else
+                                {
+                                    if (uniqueKeyPropNames != null)
+                                    {
+                                        if (IsFoundKeys<T>(item, uniqueKeyPropNames, duplicateKeys))
+                                            return true;
+                                        return false;
+                                    }
+                                    return false;
+                                }
                             }
-                            return isFound;
                         });
-                        if (duplicateRecord != null)
-                        // Cái này để loại bỏ dữ liệu bị trùng
+                        if (duplicateRecord != null) // Remove the duplicate value
                         {
                             duplicateValues.Add(duplicateRecord);
                             list.Remove(duplicateRecord);
                         }
                     }
                 }
-            } while (duplicatePrimaryKeys != null);
+            } while (duplicateKeys != null);
 
             return duplicateValues;
         }
 
-        public static async Task<object> ImportAsync<T>(List<T> list, CancellationToken cancellationToken = default, params string[] propertyNameOfPrimaryKes) where T : class
+        /// <summary>
+        /// Import the time table data from excel to ToUs database
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="primaryKeyPropNames">An array of property map to primary key</param>
+        /// <param name="propertyNameOfUniqueKeys">An array of property map to unique key</param>
+        /// <returns>
+        /// A list of duplicate value which can not import to db since having same primary key or unique key
+        /// </returns>
+        /// <exception cref="TaskCanceledException"></exception>
+        public static async Task<object> ImportAsync<T>(List<T> list, string[] primaryKeyPropNames,
+            string[] uniqueKeyPropNames = null, CancellationToken cancellationToken = default) where T : class
         {
             List<T> duplicateValues = new List<T>();
 
             Task task = new Task(async () =>
             {
-                string[] duplicatePrimaryKeys;
+                string[] duplicateKeys;
+
                 do
                 {
-                    duplicatePrimaryKeys = null;
+                    duplicateKeys = null;
                     try
                     {
                         if (list.Count > 0)
@@ -397,66 +434,51 @@ namespace ToUs.Models
                     }
                     catch (Exception e)
                     {
-                        duplicatePrimaryKeys = GetDuplicatePrimaryKeys(e.Message);
-                        if (duplicatePrimaryKeys == null || duplicatePrimaryKeys.Length <= 0)
+                        //Get the duplicate key from the error message
+                        duplicateKeys = GetDuplicateKeys(e.Message);
+                        // If have a bug show it to the ui
+                        if (duplicateKeys == null || duplicateKeys.Length <= 0)
                             MessageBox.Show(e.Message);
+                        //Get the numbers of key from duplicate keys
                         else
                         {
-                            int propertysLength = propertyNameOfPrimaryKes.Length;
-                            int primaryKeysLength = duplicatePrimaryKeys.Length;
-
                             var duplicateRecord = list.FirstOrDefault(item =>
                             {
-                                bool isFound = false;
-                                Type type = item.GetType();
-
-                                if (propertyNameOfPrimaryKes.Length != duplicatePrimaryKeys.Length)
+                                int duplicateCount = duplicateKeys.Length;
+                                if (primaryKeyPropNames.Length != duplicateCount &&
+                                    duplicateCount != uniqueKeyPropNames.Length)
                                 {
-                                    MessageBox.Show("Bạn truyền dư hoặc thiếu primary key trong lúc import " + type.Name);
+                                    MessageBox.Show("- Bạn truyền dư hoặc thiếu primary key hoặc " +
+                                        "unique key trong lúc import " + item.GetType().Name +
+                                        "\n- Messeage lỗi hiện tại là: " + e.Message);
+                                    return false;
                                 }
                                 else
                                 {
-                                    int count = 0;
-                                    bool[] isCheckeds = new bool[duplicatePrimaryKeys.Length];
-                                    for (int i = 0; i < isCheckeds.Length; i++)
-                                        isCheckeds[i] = false;
-
-                                    for (int i = 0; i < propertysLength; i++)
+                                    if (IsFoundKeys<T>(item, primaryKeyPropNames, duplicateKeys))
                                     {
-                                        string propertyName = propertyNameOfPrimaryKes[i];
-                                        PropertyInfo propertyInfo = type.GetProperty(propertyName);
-                                        if (propertyInfo != null)
-                                        {
-                                            string propertyValue = propertyInfo.GetValue(item).ToString();
-                                            for (int j = 0; j < primaryKeysLength; j++)
-                                            {
-                                                string primaryKey = duplicatePrimaryKeys[j];
-
-                                                if (isCheckeds[j] == false && propertyValue == primaryKey)
-                                                {
-                                                    count++;
-                                                    isCheckeds[j] = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        //string propertyValue = type.GetProperty(propertyName)
-                                        //                             ?.GetValue(item).ToString();
+                                        return true;
                                     }
-                                    if (count == propertysLength)
-                                        isFound = true;
+                                    else
+                                    {
+                                        if (uniqueKeyPropNames != null)
+                                        {
+                                            if (IsFoundKeys<T>(item, uniqueKeyPropNames, duplicateKeys))
+                                                return true;
+                                            return false;
+                                        }
+                                        return false;
+                                    }
                                 }
-                                return isFound;
                             });
-                            if (duplicateRecord != null)
-                            // Cái này để loại bỏ dữ liệu bị trùng
+                            if (duplicateRecord != null) // Remove the duplicate value
                             {
                                 duplicateValues.Add(duplicateRecord);
                                 list.Remove(duplicateRecord);
                             }
                         }
                     }
-                } while (duplicatePrimaryKeys != null);
+                } while (duplicateKeys != null);
             });
             task.Start();
             if (cancellationToken.IsCancellationRequested)
@@ -468,16 +490,64 @@ namespace ToUs.Models
             return duplicateValues;
         }
 
+        private static bool IsFoundKeys<T>(T obj, string[] propertyNames, string[] keys)
+        {
+            Type type = obj.GetType();
+            int keysLength = keys.Length;
+            int propertyCount = propertyNames.Length;
+            int checkedCount = 0;
+
+            if (keysLength != propertyCount)
+                return false;
+
+            bool[] isCheckeds = new bool[keysLength];
+            for (int i = 0; i < isCheckeds.Length; i++)
+                isCheckeds[i] = false;
+
+            for (int i = 0; i < propertyCount; i++)
+            {
+                string propertyName = propertyNames[i];
+                PropertyInfo propertyInfo = type.GetProperty(propertyName);
+                if (propertyInfo != null)
+                {
+                    string propertyValue;
+                    if (propertyInfo.GetValue(obj) == null)
+                        propertyValue = "null";
+                    else
+                        propertyValue = propertyInfo.GetValue(obj).ToString();
+                    for (int j = 0; j < keysLength; j++)
+                    {
+                        string key = keys[j];
+
+                        if (isCheckeds[j] == false && propertyValue == key)
+                        {
+                            checkedCount++;
+                            isCheckeds[j] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (checkedCount == propertyCount)
+                return true;
+            return false;
+        }
+
         public static async Task ImportToDBAsync()
         {
             try
             {
-                await ImportAsync<Faculty>(GetAllFaculty(), CancellationToken.None, "Id");
-                Task<object> subjectTask = ImportAsync<Subject>(GetAllSubjects(), CancellationToken.None, "Id");
-                Task<object> teacherTask = ImportAsync<Teacher>(GetAllTeachers(), CancellationToken.None, "Id");
-                Task<object> classTask = ImportAsync<Class>(GetAllClasses(), CancellationToken.None, "Id", "Year", "Semester");
+                await ImportAsync<Faculty>(GetAllFaculty(), new string[] { "Id" });
+                Task<object> subjectTask = ImportAsync<Subject>(GetAllSubjects(), new string[] { "Id" });
+                Task<object> teacherTask = ImportAsync<Teacher>(GetAllTeachers(), new string[] { "Id" });
+                Task<object> classTask = ImportAsync<Class>(GetAllClasses(),
+                                                            new string[] { "Id" },
+                                                            new string[] { "ClassId", "Year", "Semester" });
                 await Task.WhenAll(subjectTask, teacherTask, classTask);
-                await ImportAsync<ClassManager>(GetAllClassManager(), CancellationToken.None, "Id");
+
+                await ImportAsync<ClassManager>(GetAllClassManager(),
+                                                new string[] { "Id" },
+                                                new string[] { "SubjectId", "TeacherId", "ClassId" });
                 MessageBox.Show("File đã được load thành công");
             }
             catch (Exception e)
@@ -490,11 +560,15 @@ namespace ToUs.Models
         {
             try
             {
-                Import<Faculty>(GetAllFaculty(), "Id");
-                Import<Subject>(GetAllSubjects(), "Id");
-                Import<Teacher>(GetAllTeachers(), "Id");
-                Import<Class>(GetAllClasses(), "Id", "Year", "Semester");
-                Import<ClassManager>(GetAllClassManager(), "Id");
+                Import<Faculty>(GetAllFaculty(), new string[] { "Id" });
+                Import<Subject>(GetAllSubjects(), new string[] { "Id" });
+                Import<Teacher>(GetAllTeachers(), new string[] { "Id" });
+                Import<Class>(GetAllClasses(),
+                              new string[] { "Id" },
+                              new string[] { "ClassId", "Year", "Semester" });
+                Import<ClassManager>(GetAllClassManager(),
+                                     new string[] { "Id" },
+                                     new string[] { "SubjectId", "TeacherId", "ClassId" });
                 MessageBox.Show("File đã được load thành công");
             }
             catch (Exception e)

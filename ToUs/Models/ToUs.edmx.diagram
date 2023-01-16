@@ -5,19 +5,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="adc0b4b97cb94e92bc83e6d021599c66" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="TOUSModel.Class" Width="1.5" PointX="3" PointY="11.75" />
+        <EntityTypeShape EntityType="TOUSModel.Class" Width="1.5" PointX="3" PointY="11.375" />
         <EntityTypeShape EntityType="TOUSModel.ClassManager" Width="1.5" PointX="5.25" PointY="4.625" />
-        <EntityTypeShape EntityType="TOUSModel.Faculty" Width="1.5" PointX="0.75" PointY="3.625" />
-        <EntityTypeShape EntityType="TOUSModel.Permission" Width="1.5" PointX="1.5" PointY="20.375" />
-        <EntityTypeShape EntityType="TOUSModel.PermissionDetail" Width="1.5" PointX="3.75" PointY="21.25" />
-        <EntityTypeShape EntityType="TOUSModel.Subject" Width="1.5" PointX="3" PointY="5" />
-        <EntityTypeShape EntityType="TOUSModel.SubjectBackUp" Width="1.5" PointX="3" PointY="1.5" />
-        <EntityTypeShape EntityType="TOUSModel.TableManager" Width="1.5" PointX="7.5" PointY="5.375" />
-        <EntityTypeShape EntityType="TOUSModel.Teacher" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="TOUSModel.Faculty" Width="1.5" PointX="0.75" PointY="3.5" />
+        <EntityTypeShape EntityType="TOUSModel.Permission" Width="1.5" PointX="1.5" PointY="20.25" />
+        <EntityTypeShape EntityType="TOUSModel.PermissionDetail" Width="1.5" PointX="3.75" PointY="21" />
+        <EntityTypeShape EntityType="TOUSModel.Subject" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="TOUSModel.SubjectBackUp" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="TOUSModel.TableManager" Width="1.5" PointX="7.5" PointY="5.125" />
+        <EntityTypeShape EntityType="TOUSModel.Teacher" Width="1.5" PointX="3" PointY="8.875" />
         <EntityTypeShape EntityType="TOUSModel.TeacherBackUp" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TOUSModel.TimeTable" Width="1.5" PointX="5.25" PointY="17.375" />
-        <EntityTypeShape EntityType="TOUSModel.User" Width="1.5" PointX="0.75" PointY="17.25" />
-        <EntityTypeShape EntityType="TOUSModel.UserDetail" Width="1.5" PointX="3" PointY="17.125" />
+        <EntityTypeShape EntityType="TOUSModel.TimeTable" Width="1.5" PointX="5.25" PointY="17.25" />
+        <EntityTypeShape EntityType="TOUSModel.User" Width="1.5" PointX="0.75" PointY="17" />
+        <EntityTypeShape EntityType="TOUSModel.UserDetail" Width="1.5" PointX="3" PointY="16.875" />
         <AssociationConnector Association="TOUSModel.Fk_ClassManager_Class" />
         <AssociationConnector Association="TOUSModel.Fk_ClassManager_Subject" />
         <AssociationConnector Association="TOUSModel.Fk_ClassManager_Teacher" />

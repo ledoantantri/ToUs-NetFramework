@@ -14,7 +14,7 @@ namespace ToUs.Models
     
     public partial class TableManager
     {
-        public int TableId { get; set; }
+        public string TableName { get; set; }
         public int ClassManagerId { get; set; }
         public string PicturePath { get; set; }
     

@@ -13,7 +13,7 @@ namespace ToUs.View.PreviewView
         {
             InitializeComponent();
 
-            foreach (DataScheduleRow i in AppConfiguration.SelectedRows)
+            foreach (DataScheduleRow i in AppConfig.SelectedRows)
             {
                 BoxTimetableDetail boxTimetableDetail = new BoxTimetableDetail();
                 boxTimetableDetail.SetValue(Grid.ColumnProperty, int.Parse(i.Class.DayInWeek) - 1);

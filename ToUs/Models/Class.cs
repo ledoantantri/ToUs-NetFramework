@@ -20,7 +20,8 @@ namespace ToUs.Models
             this.ClassManagers = new HashSet<ClassManager>();
         }
     
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string ClassId { get; set; }
         public Nullable<int> NumberOfStudents { get; set; }
         public string Room { get; set; }
         public Nullable<int> Frequency { get; set; }

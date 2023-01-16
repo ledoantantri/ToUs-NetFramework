@@ -141,7 +141,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Exceptions\ConnectionFailedException.cs" />
-    <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\AppConfig.cs" />
+    <Compile Include="Models\AppConfigAdminMode.cs" />
+    <Compile Include="Models\AppConFigClientMode.cs" />
+    <Compile Include="Models\AppConfigUserMode.cs" />
     <Compile Include="Models\Class.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
@@ -151,7 +154,8 @@
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Exceptions\NoDatasException.cs" />
     <Compile Include="Exceptions\NotCorrectFileException.cs" />
-    <Compile Include="Models\DataSupporter.cs" />
+    <Compile Include="Models\DataScheduleRow.cs" />
+    <Compile Include="Models\DataQuery.cs" />
     <Compile Include="Models\Faculty.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>

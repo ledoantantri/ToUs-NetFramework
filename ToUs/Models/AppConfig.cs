@@ -1,25 +1,15 @@
 ﻿using System.Collections.Generic;
+using ToUs.View.HomePageView;
 
 namespace ToUs.Models
 {
-    public static class AppConfiguration
+    public static partial class AppConfig
     {
         private static User _user;
         private static User _userDetail;
-        private static string connectionString;
+        private static string _connectionString;
         private static List<DataScheduleRow> _selectedRows = new List<DataScheduleRow>();
         private static List<DataScheduleRow> _allRows = new List<DataScheduleRow>();
-
-        private static string _currentExcelPath = null;
-
-        public static string CurrentExcelPath
-        {
-            get
-            {
-                return _currentExcelPath;
-            }
-            set { _currentExcelPath = value; }
-        }
 
         public static List<DataScheduleRow> AllRows
         {
@@ -67,13 +57,13 @@ namespace ToUs.Models
         {
             get
             {
-                if (connectionString != null)
-                    return connectionString;
+                if (_connectionString != null)
+                    return _connectionString;
                 return null;
             }
             set
             {
-                connectionString = value;
+                _connectionString = value;
             }
         }
 

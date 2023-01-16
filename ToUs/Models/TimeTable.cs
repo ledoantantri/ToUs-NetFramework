@@ -20,7 +20,7 @@ namespace ToUs.Models
             this.TableManagers = new HashSet<TableManager>();
         }
     
-        public int Id { get; set; }
+        public string Name { get; set; }
         public int UserDetailId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

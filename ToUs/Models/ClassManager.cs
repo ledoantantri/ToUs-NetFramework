@@ -23,11 +23,9 @@ namespace ToUs.Models
         public int Id { get; set; }
         public string SubjectId { get; set; }
         public string TeacherId { get; set; }
-        public string ClassId { get; set; }
+        public int ClassId { get; set; }
         public bool IsDelete { get; set; }
         public string Type { get; set; }
-        public int Year { get; set; }
-        public int Semester { get; set; }
     
         public virtual Class Class { get; set; }
         public virtual Subject Subject { get; set; }
