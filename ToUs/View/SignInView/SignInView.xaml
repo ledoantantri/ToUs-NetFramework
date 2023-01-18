@@ -30,6 +30,7 @@
     </Window.Resources>
 
     <Grid>
+        <!--THIS IS BACKGROUND-->
         <Border x:Name="Background"
                 Width="1920"
                 Height="1080"
@@ -75,7 +76,8 @@
                     </Rectangle>
                 </Grid>
 
-                <Grid>
+                <!--BACK BUTTON-->
+                <Grid x:Name="Back_Button">
                     <Button x:Name="Back"
                             Background="Transparent"
                             BorderBrush="Transparent"
@@ -93,7 +95,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-
+                            <!--ICON BACK-->                            
                             <Icon:PackIconMaterial Grid.Column="0"
                                                    Kind="ArrowLeft"
                                                    Width="31.5"
@@ -105,6 +107,7 @@
 
                             </Icon:PackIconMaterial>
 
+                            <!--TEXT BACK-->
                             <TextBlock Grid.Column="1" 
                                        Foreground="#F5F5F5"
                                        Text="Quay lại"
