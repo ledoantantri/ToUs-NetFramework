@@ -50,13 +50,13 @@
                 </Grid.ColumnDefinitions>
                 
                 <!--CLOSE-->
-                <Grid>
+                <!--<Grid>
                     <customcontrol:PanelControlBar x:Name="PnlControlBar"
                                                    Margin="1795.5,36"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Top"
                                                    Command="{Binding CloseAppCommand}"/>
-                </Grid>
+                </Grid>-->
                 
                 <!--LOGO-->
                 <Grid Name="Logo">
