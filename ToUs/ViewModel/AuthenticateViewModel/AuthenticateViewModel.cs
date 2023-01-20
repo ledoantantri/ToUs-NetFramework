@@ -262,7 +262,7 @@ namespace ToUs.ViewModel.AuthenticateViewModel
 
         private void SendCode(object obj)
         {
-            string FromEmail = "UitToUs2003@outlook.com";
+            string FromEmail = "UITToUs2003@outlook.com";
             string pass = "ToUs2003";
             _codeSent = (_rand.Next(999999)).ToString();
 
@@ -272,24 +272,24 @@ namespace ToUs.ViewModel.AuthenticateViewModel
             message.Subject = "ToUs's password reseting code";
             message.Body = "Your reset code is " + _codeSent;
 
-            SmtpClient smtp = new SmtpClient("smtp.outlook.com");
+            SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com");
             smtp.EnableSsl = true;
             smtp.Port = 587;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Credentials = new NetworkCredential(FromEmail, pass);
 
 
-            smtp.Send(message);
-            IsSendCode = true;
-            //try
-            //{
-            //    smtp.Send(message);
-            //    IsSendCode = true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+            //smtp.Send(message);
+            //IsSendCode = true;
+            try
+            {
+                smtp.Send(message);
+                IsSendCode = true;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void SignInSignUp(object obj)

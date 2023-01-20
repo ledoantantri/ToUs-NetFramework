@@ -9,8 +9,6 @@ namespace ToUs.ViewModel
 {
     class MainViewViewModel : ViewModelBase
     {
-
-
         private object _currentView;
         private bool _isLoaded;
         private bool _isScale;
@@ -19,7 +17,6 @@ namespace ToUs.ViewModel
         private bool _isExit;
         public static int ourScreenWidth = Screen.PrimaryScreen.WorkingArea.Width;
         public static int ourScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
-
 
 
         public float ScaleWidth
@@ -69,9 +66,6 @@ namespace ToUs.ViewModel
         public ICommand SidebarInCommand { get; set; }
         public ICommand CloseAppCommand { get; set; }
         public ICommand NotCloseAppCommand { get; set; }
-
-
-
 
 
         public MainViewViewModel()
