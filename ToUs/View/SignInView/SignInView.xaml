@@ -8,7 +8,7 @@
         xmlns:viewmodel="clr-namespace:ToUs.ViewModel.SignInViewModel"
         xmlns:local="clr-namespace:ToUs.View.SignInView"
         mc:Ignorable="d"
-        Title="SignInView" 
+        Title="SignInView"
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
         Background="Transparent"
@@ -591,6 +591,25 @@
                         giây
                     </TextBlock>
                 </Grid>
+
+                <!--Confirm Button SU-->
+                <Grid x:Name="ConfirmButtonSU">
+                    <Button x:Name="ConfirmSU"
+                            Background="#534B72"
+                            BorderBrush="Transparent"
+                            Width="225"
+                            Height="56.25"
+                            materialDesign:ButtonAssist.CornerRadius="30"
+                            Padding="0"
+                            Margin="231,388"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                        <TextBlock Text="Xác nhận"
+                                   FontSize="30"
+                                   FontWeight="Bold"/>
+
+                    </Button>
+                </Grid>
             </Grid>
         </Border>
         
@@ -823,7 +842,7 @@
                 </Grid>
 
                 <!--OTP Noti Line (NEEDING FIXED)-->
-                <Grid>
+                <Grid x:Name="NotiLine_PR">
                     <TextBlock x:Name="NotiLinePR"
                                FontSize="20"
                                FontWeight="Regular"
@@ -838,7 +857,7 @@
                 </Grid>
 
                 <!--Try Again (NEDDING FIXED)-->
-                <Grid>
+                <Grid x:Name="TryAgain_PR">
 
                     <TextBlock x:Name="TryAgainPR"
                                FontSize="20"
@@ -887,6 +906,25 @@
                                Margin="455,710,188,343">
                         giây
                     </TextBlock>
+                </Grid>
+
+                <!--Confirm Button PR-->
+                <Grid x:Name="ConfirmButtonPR">
+                    <Button x:Name="ConfirmPR"
+                            Background="#534B72"
+                            BorderBrush="Transparent"
+                            Width="225"
+                            Height="56.25"
+                            materialDesign:ButtonAssist.CornerRadius="30"
+                            Padding="0"
+                            Margin="231,388"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                        <TextBlock Text="Xác nhận"
+                                   FontSize="30"
+                                   FontWeight="Bold"/>
+
+                    </Button>
                 </Grid>
             </Grid>
         </Border>
