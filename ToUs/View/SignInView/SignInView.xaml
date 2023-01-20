@@ -331,7 +331,45 @@
                         </Grid>
                     </Button>
                 </Grid>
+                
+                <!--Input Section-->
+                <customcontrol:TextBoxPlaceHolder Width="450"
+                                                      Height="45"
+                                                      Margin="118,256"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      TextInput="{Binding UsernameSignIn, UpdateSourceTrigger=PropertyChanged}"
+                                                      Title="Họ tên"
+                                                      Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
 
+                <customcontrol:TextBoxPlaceHolder Width="450"
+                                                      Height="45"
+                                                      Margin="118,338"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      TextInput="{Binding UsernameSignIn, UpdateSourceTrigger=PropertyChanged}"
+                                                      Title="Email"
+                                                      Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <customcontrol:TextBoxPlaceHolder Width="450"
+                                                      Height="45"
+                                                      Margin="118,421"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Password="{Binding PasswordSignIn, UpdateSourceTrigger=PropertyChanged}"
+                                                      Error="{Binding PasswordSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"
+                                                      Title="Nhập mật khẩu"
+                                                      isPassword="True"/>
+
+                <customcontrol:TextBoxPlaceHolder Width="450"
+                                                      Height="45"
+                                                      Margin="118,504"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Password="{Binding PasswordSignIn, UpdateSourceTrigger=PropertyChanged}"
+                                                      Error="{Binding PasswordSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"
+                                                      Title="Nhập lại mật khẩu"
+                                                      isPassword="True"/>
                 <!--Next Button-->
                 <Grid x:Name="Next_Button_SU">
                     <Button x:Name="Next_SU"
@@ -544,6 +582,303 @@
                     </TextBox>-->
 
                     <TextBlock x:Name="seconds"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="36"
+                               Height="27"
+                               Margin="455,710,188,343">
+                        giây
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </Border>
+        
+        <!--THIS IS PASSWORD RESET-->
+        <Border x:Name="PassReset"
+                Background="Transparent"
+                Width="686"
+                Height="1080"
+                Margin="984,2300,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+
+            <Grid>
+                <!--Password Title-->
+                <Grid x:Name="PassReset_Title">
+                    <TextBlock x:Name="PassResetTitle"
+                               Foreground="#665D8C"
+                               FontSize="40"
+                               FontWeight="Bold"
+                               Margin="156"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top">
+                        Đặt mật khẩu mới
+                    </TextBlock>
+                </Grid>
+
+                <customcontrol:TextBoxPlaceHolder Width="450"
+                                                      Height="45"
+                                                      Margin="118,256"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      TextInput="{Binding UsernameSignIn, UpdateSourceTrigger=PropertyChanged}"
+                                                      Title="Nhập email"
+                                                      
+                                                      Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--Back Button-->
+                <Grid x:Name="Back_to_SignIn_2">
+                    <Button Background="Transparent"
+                            BorderBrush="Transparent"
+                            Width="130"
+                            Height="26"
+                            Margin="83,101"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Padding="0"
+                            HorizontalContentAlignment="Stretch">
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Icon:PackIconMaterial Grid.Column="0"
+                                                   Kind="ChevronLeft"
+                                                   Foreground="#665D8C"
+                                                   Width="10"
+                                                   Height="20"
+                                                   Margin="5 2 0 0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+
+                            </Icon:PackIconMaterial>
+
+                            <TextBlock Grid.Column="1"
+                                       
+                                       Foreground="#665D8C"
+                                       FontSize="21"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <Underline> Đăng nhập </Underline>
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+
+                <!--Next Button-->
+                <Grid x:Name="Next_Button_PR">
+                    <Button x:Name="Next_PR"
+                            Background="#534B72"
+                            Width="80"
+                            Height="80"
+                            materialDesign:ButtonAssist.CornerRadius="20"
+                            BorderBrush="Transparent"
+                            Margin="303,346,0,0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left">
+                        <Icon:PackIconMaterial Kind="ArrowRight"
+                                               Width="30"
+                                               Height="30"
+                                               Foreground="#FFFFFF">
+
+                        </Icon:PackIconMaterial>
+
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!--THIS IS PASSWORD RESET CONFIRM-->
+        <Border x:Name="PRConfirm"
+                Background="Transparent"
+                Width="686"
+                Height="1080"
+                Margin="2000,2300,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+
+            <Grid>
+                <!--SignUp Title-->
+                <Grid x:Name="PRConfirm_Title">
+                    <TextBlock x:Name="PRConfirmTitle"
+                               Foreground="#665D8C"
+                               FontSize="40"
+                               FontWeight="Bold"
+                               Margin="84,156"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top">
+                        Xác nhận đặt mật khẩu mới
+                    </TextBlock>
+                </Grid>
+
+                <!--Back Button-->
+                <Grid x:Name="Back_to_PR">
+                    <Button Background="Transparent"
+                            BorderBrush="Transparent"
+                            Width="84"
+                            Height="26"
+                            Margin="83,101"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Padding="0"
+                            HorizontalContentAlignment="Stretch">
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Icon:PackIconMaterial Grid.Column="0"
+                                                   Kind="ChevronLeft"
+                                                   Foreground="#665D8C"
+                                                   Width="10"
+                                                   Height="20"
+                                                   Margin="5 2 0 0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+
+                            </Icon:PackIconMaterial>
+
+                            <TextBlock Grid.Column="1"
+                                       
+                                       Foreground="#665D8C"
+                                       FontSize="21"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <Underline> Trở về </Underline>
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+
+                <!--Confirm Boxes (NEEDING FIXED)-->
+                <Grid x:Name="ConfirmBoxesPR">
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="119,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="196.5,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="274,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="272,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="194.5,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="117,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+                </Grid>
+
+                <!--OTP Noti Line (NEEDING FIXED)-->
+                <Grid>
+                    <TextBlock x:Name="NotiLinePR"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="504"
+                               Height="27"
+                               Margin="91,333"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top">
+                        Mã OTP đã được gửi đến email
+                    </TextBlock>
+                </Grid>
+
+                <!--Try Again (NEDDING FIXED)-->
+                <Grid>
+
+                    <TextBlock x:Name="TryAgainPR"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="309"
+                               Height="27"
+                               Margin="189,710,188,343">
+                        Chưa nhận được?
+                    </TextBlock>
+
+                    <Button BorderBrush="Transparent"
+                            Background="Transparent"
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="#665D8C"
+                            Padding="0"
+                            Width="60"
+                            Height="27"
+                            Margin="255,710,188,343"
+                            VerticalAlignment="Center"                            >
+                        Thử lại
+                    </Button>
+
+                    <TextBlock x:Name="afterPR"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="30"
+                               Height="27"
+                               Margin="355,710,188,343">
+                        sau
+                    </TextBlock>
+
+                    <!--Countdown (NEEDING ADDED)-->
+                    <!--<TextBox>
+                        
+                    </TextBox>-->
+
+                    <TextBlock x:Name="secondsPR"
                                FontSize="20"
                                FontWeight="Regular"
                                Foreground="#666666"
