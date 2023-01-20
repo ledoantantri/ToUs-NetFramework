@@ -292,7 +292,7 @@
                     </TextBlock>
                 </Grid>
 
-                <!--Back to SignIn-->
+                <!--Back Button-->
                 <Grid x:Name="Back_to_SignIn">
                     <Button Background="Transparent"
                             BorderBrush="Transparent"
@@ -351,6 +351,207 @@
                         </Icon:PackIconMaterial>
 
                     </Button>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!--THIS IS SIGN UP CONFIRM-->
+        <Border x:Name="SignUpConfirm"
+                Background="Transparent"
+                Width="686"
+                Height="1080"
+                Margin="2800,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center">
+
+            <Grid>
+                <!--SignUp Title-->
+                <Grid x:Name="SignUpConfirm_Title">
+                    <TextBlock x:Name="SignUpConfirmTitle"
+                               Foreground="#665D8C"
+                               FontSize="40"
+                               FontWeight="Bold"
+                               Margin="156"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top">
+                        Xác nhận đăng ký
+                    </TextBlock>
+                </Grid>
+
+                <!--Back Button-->
+                <Grid x:Name="Back_to_SignUp">
+                    <Button Background="Transparent"
+                            BorderBrush="Transparent"
+                            Width="84"
+                            Height="26"
+                            Margin="83,101"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Padding="0"
+                            HorizontalContentAlignment="Stretch">
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Icon:PackIconMaterial Grid.Column="0"
+                                                   Kind="ChevronLeft"
+                                                   Foreground="#665D8C"
+                                                   Width="10"
+                                                   Height="20"
+                                                   Margin="5 2 0 0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+
+                            </Icon:PackIconMaterial>
+
+                            <TextBlock Grid.Column="1"
+                                       
+                                       Foreground="#665D8C"
+                                       FontSize="21"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <Underline> Trở về </Underline>
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+
+                <!--Confirm Boxes (NEEDING FIXED)--> 
+                <Grid x:Name="ConfirmBoxes">
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="119,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="196.5,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="274,243"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+                    
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="272,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="194.5,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+
+                    <Rectangle RadiusX="18.75"
+                               RadiusY="18.75"
+                            Fill="#FEFEFE"
+                            Width="62.5"
+                            Height="62.5"
+                            Margin="117,243"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    </Rectangle>
+                </Grid>
+
+                <!--OTP Noti Line (NEEDING FIXED)-->
+                <Grid>
+                    <TextBlock x:Name="NotiLine"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="504"
+                               Height="27"
+                               Margin="91,333"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top">
+                        Mã OTP đã được gửi đến email
+                    </TextBlock>
+                </Grid>
+
+                <!--Try Again (NEDDING FIXED)-->
+                <Grid>
+
+                    <TextBlock x:Name="TryAgain"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="309"
+                               Height="27"
+                               Margin="189,710,188,343">
+                        Chưa nhận được?                        
+                    </TextBlock>
+
+                    <Button BorderBrush="Transparent"
+                            Background="Transparent"
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="#665D8C"
+                            Padding="0"
+                            Width="60"
+                            Height="27"
+                            Margin="255,710,188,343"
+                            VerticalAlignment="Center"                            >
+                        Thử lại
+                    </Button>
+
+                    <TextBlock x:Name="after"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="30"
+                               Height="27"
+                               Margin="355,710,188,343">
+                        sau
+                    </TextBlock>
+
+                    <!--Countdown (NEEDING ADDED)--> 
+                    <TextBox>
+                        
+                    </TextBox>
+
+                    <TextBlock x:Name="seconds"
+                               FontSize="20"
+                               FontWeight="Regular"
+                               Foreground="#666666"
+                               Width="36"
+                               Height="27"
+                               Margin="455,710,188,343">
+                        giây
+                    </TextBlock>
                 </Grid>
             </Grid>
         </Border>
