@@ -76,7 +76,8 @@ namespace ToUs.ViewModel.HomePageViewModel
 
         private void CreateTable(object obj)
         {
-            MessageBox.Show("Đã lưu thông tin tạo thời khóa biểu thành công, vui lòng chuyển sang chọn lớp học để tạo thời khóa biểu");
+            MessageBox.Show("Đã lưu thông tin tạo thời khóa biểu thành công, " +
+                "vui lòng chuyển sang chọn lớp học để tạo thời khóa biểu");
         }
 
         private void ChooseNormalMode(object obj)
@@ -116,8 +117,6 @@ namespace ToUs.ViewModel.HomePageViewModel
                         else
                             MessageBox.Show("Không thể kết nối đến cơ sở dữ liệu");
                     }
-                    else
-                        MessageBox.Show("Không thể mở file excel");
 
                     clock.Stop();
                     TimeSpan ts = clock.Elapsed;

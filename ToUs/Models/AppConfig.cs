@@ -11,20 +11,6 @@ namespace ToUs.Models
         private static List<DataScheduleRow> _selectedRows = new List<DataScheduleRow>();
         private static List<DataScheduleRow> _allRows = new List<DataScheduleRow>();
 
-        public static List<DataScheduleRow> AllRows
-        {
-            get
-            {
-                if (_allRows != null)
-                    return _allRows;
-                return null;
-            }
-            set
-            {
-                _allRows = value;
-            }
-        }
-
         public static User User
         {
             get
@@ -78,6 +64,20 @@ namespace ToUs.Models
             set
             {
                 _selectedRows = value;
+            }
+        }
+
+        public static List<DataScheduleRow> AllRows
+        {
+            get
+            {
+                if (_allRows != null)
+                    return _allRows;
+                return null;
+            }
+            set
+            {
+                _allRows = value;
             }
         }
     }

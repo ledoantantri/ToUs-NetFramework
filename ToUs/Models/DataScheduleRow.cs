@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ToUs.Models
 {
@@ -30,6 +31,10 @@ namespace ToUs.Models
                     return _teachers;
                 return null;
             }
+            set
+            {
+                _teachers = value;
+            }
         }
 
         public Subject Subject
@@ -40,6 +45,7 @@ namespace ToUs.Models
                     return _subject;
                 return null;
             }
+            set { _subject = value; }
         }
 
         public Class Class
@@ -50,6 +56,15 @@ namespace ToUs.Models
                     return _class;
                 return null;
             }
+            set { _class = value; }
+        }
+
+        public DataScheduleRow()
+        {
+            _teachers = null;
+            _subject = null;
+            _class = null;
+            _isChecked = false;
         }
 
         public DataScheduleRow(Subject subject, Class @class, List<Teacher> teachers)

@@ -22,6 +22,8 @@ namespace ToUs.Models
             try
             {
                 _tableCollection = ExcelReader.ExcelDataTables;
+                if (_tableCollection == null || _tableCollection.Count == 0)
+                    throw new NoDatasException();
                 return true;
             }
             catch (NoDatasException)
@@ -70,21 +72,25 @@ namespace ToUs.Models
             return subjects;
         }
 
+        /// <summary>
+        /// Get the number of teachers at the row
+        /// </summary>
+        /// <param name="dataRow"></param>
+        /// <returns>List contains the valid teacher, if not having any teacher return empty list</returns>
         private static List<Teacher> GetTeachers(DataRow dataRow)
         {
-            List<Teacher> teachers = null;
+            var teachers = new List<Teacher>();
             try
             {
                 DataTable dt = dataRow.Table;
                 char[] splitChars = { '\n' };
                 if (dt.Columns.Contains("MÃ GIẢNG VIÊN") && dt.Columns.Contains("TÊN GIẢNG VIÊN"))
                 {
-                    teachers = new List<Teacher>();
                     string[] ids = dataRow["MÃ GIẢNG VIÊN"].ToString().Split(splitChars);
                     string[] names = dataRow["TÊN GIẢNG VIÊN"].ToString().Split(splitChars);
                     for (int i = 0; i < ids.Length; i++)
                     {
-                        if (ids[i].Trim() != "")
+                        if (!String.IsNullOrEmpty(ids[i].Trim()))
                         {
                             Teacher teacher = new Teacher()
                             {
@@ -145,28 +151,29 @@ namespace ToUs.Models
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        string id = row["MÃ LỚP"].ToString().Trim();
+                        string classId = row["MÃ LỚP"].ToString().Trim();
                         int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
                         int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
 
                         //if not exitsted ma mh then add to subjects
-                        if (!String.IsNullOrEmpty(id))
+                        if (!String.IsNullOrEmpty(classId))
                         {
                             int index = -1;
-                            if (0 <= (index = classes.FindIndex(classChecked => classChecked.ClassId == id &&
-                                                                              classChecked.Year == year &&
-                                                                              classChecked.Semester == semester)))
+                            if (-1 != (index = classes.FindIndex(classChecked =>
+                                    classChecked.ClassId == classId &&
+                                    classChecked.Year == year &&
+                                    classChecked.Semester == semester)))
                             {
                                 string currentDayInWeek = classes[index].DayInWeek;
                                 string currentLession = classes[index].Lession;
-                                classes[index].Lession = currentLession + "|" + row["THỨ"].ToString().Trim();
-                                classes[index].DayInWeek = currentDayInWeek + "|" + row["TIẾT"].ToString().Trim();
+                                classes[index].Lession = currentLession + "|" + row["TIẾT"].ToString().Trim();
+                                classes[index].DayInWeek = currentDayInWeek + "|" + row["THỨ"].ToString().Trim();
                             }
                             else
                             {
                                 Class classToUs = new Class()
                                 {
-                                    ClassId = id,
+                                    ClassId = classId,
                                     Semester = semester,
                                     Year = year,
                                     DayInWeek = row["THỨ"].ToString().Trim(),
@@ -236,13 +243,12 @@ namespace ToUs.Models
                 {
                     foreach (DataRow row in dataTable.Rows)
                     {
-                        string subjectId = row["MÃ MH"].ToString().Trim();
-                        int classIdOfClassManager = -1;
+                        long classIdOfClassManager = -1;
                         using (var context = new TOUSEntities())
                         {
+                            string classId = row["MÃ LỚP"].ToString().Trim();
                             int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
                             int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
-                            string classId = row["MÃ LỚP"].ToString().Trim();
                             var classFound = context.Classes
                                 .FirstOrDefault(classChecked => classChecked.ClassId == classId &&
                                                                 classChecked.Year == year &&
@@ -251,39 +257,44 @@ namespace ToUs.Models
                             if (classFound != null)
                                 classIdOfClassManager = classFound.Id;
                         }
-
-                        var classManager = new ClassManager()
+                        if (classIdOfClassManager != -1)
                         {
-                            SubjectId = subjectId,
-                            ClassId = classIdOfClassManager,
-                            IsDelete = false,
-                            Type = ExcelReader.Type,
-                            TeacherId = null
-                        };
-                        List<Teacher> teacherInRows = GetTeachers(row);
+                            string subjectId = row["MÃ MH"].ToString().Trim();
 
-                        if (teacherInRows.Count > 0)
-                        {
-                            foreach (var teacher in teacherInRows)
+                            var classManager = new ClassManager()
                             {
-                                if (!classManagers.Any(manager => manager.ClassId == classIdOfClassManager &&
-                                                          manager.SubjectId == subjectId &&
-                                                          manager.TeacherId == teacher.Id))
+                                SubjectId = subjectId,
+                                ClassId = classIdOfClassManager,
+                                IsDelete = false,
+                                Type = ExcelReader.Type,
+                                TeacherId = null
+                            };
+
+                            List<Teacher> teacherInRows = GetTeachers(row);
+                            if (teacherInRows.Count > 0)
+                            {
+                                foreach (var teacher in teacherInRows)
                                 {
-                                    if (!String.IsNullOrEmpty(teacher.Id))
+                                    if (!classManagers.Any(manager =>
+                                            manager.ClassId == classIdOfClassManager &&
+                                            manager.SubjectId == subjectId &&
+                                            manager.TeacherId == teacher.Id))
                                     {
                                         classManager.TeacherId = teacher.Id;
+                                        classManagers.Add(classManager);
                                     }
                                 }
-                                classManagers.Add(classManager);
                             }
-                        }
-                        else
-                        {
-                            if (!classManagers.Any(manager => manager.ClassId == classIdOfClassManager &&
-                                                          manager.SubjectId == subjectId &&
-                                                          String.IsNullOrEmpty(manager.TeacherId)))
-                                classManagers.Add(classManager);
+                            else
+                            {
+                                if (!classManagers.Any(manager =>
+                                        manager.ClassId == classIdOfClassManager &&
+                                        manager.SubjectId == subjectId &&
+                                        String.IsNullOrEmpty(manager.TeacherId)))
+                                {
+                                    classManagers.Add(classManager);
+                                }
+                            }
                         }
                     }
                 }
@@ -417,7 +428,7 @@ namespace ToUs.Models
             Task task = new Task(async () =>
             {
                 string[] duplicateKeys;
-
+                CancellationToken cancellation = new CancellationToken();
                 do
                 {
                     duplicateKeys = null;
@@ -438,7 +449,10 @@ namespace ToUs.Models
                         duplicateKeys = GetDuplicateKeys(e.Message);
                         // If have a bug show it to the ui
                         if (duplicateKeys == null || duplicateKeys.Length <= 0)
+                        {
                             MessageBox.Show(e.Message);
+                            cancellation.ThrowIfCancellationRequested();
+                        }
                         //Get the numbers of key from duplicate keys
                         else
                         {
@@ -451,6 +465,7 @@ namespace ToUs.Models
                                     MessageBox.Show("- Bạn truyền dư hoặc thiếu primary key hoặc " +
                                         "unique key trong lúc import " + item.GetType().Name +
                                         "\n- Messeage lỗi hiện tại là: " + e.Message);
+                                    cancellation.ThrowIfCancellationRequested();
                                     return false;
                                 }
                                 else
@@ -519,7 +534,7 @@ namespace ToUs.Models
                     {
                         string key = keys[j];
 
-                        if (isCheckeds[j] == false && propertyValue == key)
+                        if (isCheckeds[j] == false && propertyValue.ToLower() == key.ToLower())
                         {
                             checkedCount++;
                             isCheckeds[j] = true;
@@ -533,26 +548,33 @@ namespace ToUs.Models
             return false;
         }
 
-        public static async Task ImportToDBAsync()
+        public static async Task<bool> ImportToDBAsync()
         {
             try
             {
                 await ImportAsync<Faculty>(GetAllFaculty(), new string[] { "Id" });
-                Task<object> subjectTask = ImportAsync<Subject>(GetAllSubjects(), new string[] { "Id" });
-                Task<object> teacherTask = ImportAsync<Teacher>(GetAllTeachers(), new string[] { "Id" });
-                Task<object> classTask = ImportAsync<Class>(GetAllClasses(),
+                var subjectTask = ImportAsync<Subject>(GetAllSubjects(), new string[] { "Id" });
+                var teacherTask = ImportAsync<Teacher>(GetAllTeachers(), new string[] { "Id" });
+                var classTask = ImportAsync<Class>(GetAllClasses(),
                                                             new string[] { "Id" },
                                                             new string[] { "ClassId", "Year", "Semester" });
                 await Task.WhenAll(subjectTask, teacherTask, classTask);
-
                 await ImportAsync<ClassManager>(GetAllClassManager(),
-                                                new string[] { "Id" },
-                                                new string[] { "SubjectId", "TeacherId", "ClassId" });
+                                              new string[] { "Id" },
+                                              new string[] { "SubjectId", "TeacherId", "ClassId" });
+
                 MessageBox.Show("File đã được load thành công");
+                return true;
+            }
+            catch (TaskCanceledException taskCancled)
+            {
+                MessageBox.Show("Thực thi task không thành công " + taskCancled.Source);
+                return false;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return false;
             }
         }
 

@@ -17,14 +17,15 @@ namespace ToUs.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TimeTable()
         {
-            this.TableManagers = new HashSet<TableManager>();
+            this.ClassManagers = new HashSet<ClassManager>();
         }
     
         public string Name { get; set; }
-        public int UserDetailId { get; set; }
+        public long UserDetailId { get; set; }
+        public string PicturePath { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TableManager> TableManagers { get; set; }
         public virtual UserDetail UserDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClassManager> ClassManagers { get; set; }
     }
 }

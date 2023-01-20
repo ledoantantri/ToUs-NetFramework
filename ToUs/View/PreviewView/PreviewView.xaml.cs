@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using ToUs.Models;
 using ToUs.Resources.CustomControl;
 
@@ -13,13 +14,45 @@ namespace ToUs.View.PreviewView
         {
             InitializeComponent();
 
-            foreach (DataScheduleRow i in AppConfig.SelectedRows)
+            foreach (var row in AppConfig.SelectedRows)
             {
-                BoxTimetableDetail boxTimetableDetail = new BoxTimetableDetail();
-                boxTimetableDetail.SetValue(Grid.ColumnProperty, int.Parse(i.Class.DayInWeek) - 1);
-                boxTimetableDetail.SetValue(Grid.RowProperty, int.Parse(i.Class.Lession.Substring(0, 1)));
-                boxTimetableDetail.SetValue(Grid.RowSpanProperty, i.Class.Lession.Length);
-                gridTimeTable.Children.Add(boxTimetableDetail);
+                var dayInWeeksStr = row.Class.DayInWeek.Split(new char[] { '|' });
+                var lessionsStr = row.Class.Lession.Split(new char[] { '|' });
+                for (int i = 0; i < dayInWeeksStr.Length; i++)
+                {
+                    var box = new BoxTimetableDetail();
+
+                    if (lessionsStr.Contains(","))
+                    {
+                        string[] lessions = lessionsStr[i].Split(new char[] { ',' });
+                        box.SetValue(Grid.ColumnProperty, int.Parse(dayInWeeksStr[i]) - 1);
+                        box.SetValue(Grid.RowProperty, int.Parse(lessions[i]));
+                        box.SetValue(Grid.RowSpanProperty, lessions.Length);
+                    }
+                    else
+                    {
+                        box.SetValue(Grid.ColumnProperty, int.Parse(dayInWeeksStr[i]) - 1);
+                        box.SetValue(Grid.RowProperty, int.Parse(lessionsStr[i].Substring(0, 1)));
+                        box.SetValue(Grid.RowSpanProperty, lessionsStr[i].Length);
+                    }
+                    box.ClassId.Text = row.Class.ClassId;
+                    box.SubjectName.Text = row.Subject.Name;
+                    box.Room.Text = row.Class.Room;
+                    string teacherName = "";
+                    if (row.Teacher != null)
+                    {
+                        for (int j = 0; j < row.Teacher.Count; j++)
+                        {
+                            if (j >= 1)
+                                teacherName += "\n";
+                            teacherName += row.Teacher[j];
+                        }
+                    }
+                    box.TeacherName.Text = teacherName;
+                    box.BeginDate.Text = row.Class.BeginDate.ToString();
+                    box.EndDate.Text = row.Class.EndDate.ToString();
+                    gridTimeTable.Children.Add(box);
+                }
             }
         }
     }

@@ -17,13 +17,13 @@ namespace ToUs.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ClassManager()
         {
-            this.TableManagers = new HashSet<TableManager>();
+            this.TimeTables = new HashSet<TimeTable>();
         }
     
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string SubjectId { get; set; }
         public string TeacherId { get; set; }
-        public int ClassId { get; set; }
+        public long ClassId { get; set; }
         public bool IsDelete { get; set; }
         public string Type { get; set; }
     
@@ -31,6 +31,6 @@ namespace ToUs.Models
         public virtual Subject Subject { get; set; }
         public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TableManager> TableManagers { get; set; }
+        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }
