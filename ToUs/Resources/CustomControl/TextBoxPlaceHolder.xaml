@@ -14,7 +14,7 @@
         <!--Text Input-->
         <Style x:Key="usernameBoxStyle" TargetType="{x:Type TextBox}">
 
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="#666666"/>
             <Setter Property="FontStyle" Value="Normal"/>
             <Setter Property="FontWeight" Value="Normal"/>
