@@ -160,7 +160,7 @@
                 <!--Password-->
                 <PasswordBox Style="{StaticResource passwordBox}"
                          PasswordChanged="passBox_PasswordChanged"
-                         x:Name="passBox"/>
+                         x:Name="passBox" Height="43" VerticalAlignment="Center"/>
 
                 <Button x:Name="btnShow"
                     BorderThickness="0"
