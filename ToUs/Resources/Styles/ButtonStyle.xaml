@@ -183,6 +183,39 @@
 
     </Style>
 
+    <!--ControlPanelButton White-->
+
+    <Style x:Key="controlButtonWhite" TargetType="Button">
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Margin" Value="20 0 0 0"/>
+        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border Background="{TemplateBinding Background}">
+                        <Icon:PackIconMaterial Kind="{TemplateBinding Icon:PackIconMaterial.Kind}"
+                                               Width="18"
+                                               Height="18"
+                                               Foreground="#FFFFFF"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#7FDCDC80"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <!--Button Control App-->
 
     <Style x:Key="ButtonControlApp"

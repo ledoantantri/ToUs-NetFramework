@@ -8,9 +8,8 @@
              mc:Ignorable="d" 
              x:Name="Root"
              d:DesignHeight="450" d:DesignWidth="1300">
-
     <Grid>
-        <StackPanel x:Name="PnlControlBar"
+        <StackPanel x:Name="PnlControlBarWhite"
                     Orientation="Horizontal"
                     FlowDirection="RightToLeft"
                     Background="Transparent"
@@ -18,22 +17,22 @@
                     MouseEnter="PnlControlBar_MouseEnter"
                     Margin="0 0 5 0">
 
-            <Button x:Name="btnClose"
+            <Button x:Name="btnCloseWhite"
                     Command="{Binding Command, ElementName=Root}">
                 <Button.Style>
                     <Style TargetType="Button"
-                           BasedOn="{StaticResource controlButton}">
+                           BasedOn="{StaticResource controlButtonWhite}">
                         <Setter Property="Icon:PackIconMaterial.Kind"
                                 Value="WindowClose"/>
                     </Style>
                 </Button.Style>
             </Button>
 
-            <Button x:Name="btnMinimize"
+            <Button x:Name="btnMinimizeWhite"
                     Click="btnMinimize_Click">
                 <Button.Style>
                     <Style TargetType="Button"
-                           BasedOn="{StaticResource controlButton}">
+                           BasedOn="{StaticResource controlButtonWhite}">
                         <Setter Property="Icon:PackIconMaterial.Kind"
                                 Value="WindowMinimize"/>
                     </Style>
@@ -41,7 +40,5 @@
             </Button>
 
         </StackPanel>
-
     </Grid>
-
 </UserControl>
