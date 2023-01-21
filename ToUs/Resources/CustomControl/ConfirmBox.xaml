@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToUs.Resources.CustomControl"
              mc:Ignorable="d" 
-             d:DesignHeight="62.5" d:DesignWidth="62.5"
+             d:DesignHeight="62.5" d:DesignWidth="450"
              x:Name="Root"
              Background="Transparent">
     
@@ -25,17 +25,48 @@
 
         </Style>
     </UserControl.Resources>-->
-    
+
     <Grid>
-        <Border Background="#FEFEFE"
-                BorderBrush="Transparent"
-                CornerRadius="18.75">
-            <Grid>
-                <TextBox x:Name="Confirm"
-                         >
-                    
-                </TextBox>
-            </Grid>
-        </Border>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+            <ColumnDefinition Width="15"></ColumnDefinition>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+            <ColumnDefinition Width="15"></ColumnDefinition>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+            <ColumnDefinition Width="15"></ColumnDefinition>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+            <ColumnDefinition Width="15"></ColumnDefinition>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+            <ColumnDefinition Width="15"></ColumnDefinition>
+            <ColumnDefinition Width="62.5"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Column="0">
+            
+        </TextBox>
+
+        <TextBox Grid.Column="2">
+
+        </TextBox>
+
+        <TextBox Grid.Column="4">
+
+        </TextBox>
+
+        <TextBox Grid.Column="6">
+
+        </TextBox>
+
+        <TextBox Grid.Column="8">
+
+        </TextBox>
+
+        <TextBox Grid.Column="10">
+
+        </TextBox>
+
+        
     </Grid>
+
+    
 </UserControl>
