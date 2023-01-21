@@ -51,7 +51,7 @@
                 
                 <!--CLOSE-->
                 <Grid>
-                    <customcontrol:PanelControlBarWhite x:Name="PnlControlBarWhite"
+                    <customcontrol:PanelControlBar x:Name="PnlControlBarWhite"
                                                    Margin="1795.5,36"
                                                    HorizontalAlignment="Left"
                                                    VerticalAlignment="Top"
