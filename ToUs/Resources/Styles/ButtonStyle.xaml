@@ -167,7 +167,7 @@
                         <Icon:PackIconMaterial Kind="{TemplateBinding Icon:PackIconMaterial.Kind}"
                                                Width="18"
                                                Height="18"
-                                               Foreground="#665D8C"/>
+                                               Foreground="#FFFFFF"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
