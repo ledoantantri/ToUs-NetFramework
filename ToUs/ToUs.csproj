@@ -102,9 +102,6 @@
     <Compile Include="Resources\CustomControl\PanelControlBar.xaml.cs">
       <DependentUpon>PanelControlBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\CustomControl\PanelControlBar_White.xaml.cs">
-      <DependentUpon>PanelControlBar_White.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Resources\CustomControl\SearchBar.xaml.cs">
       <DependentUpon>SearchBar.xaml</DependentUpon>
     </Compile>
@@ -170,10 +167,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\CustomControl\PanelControlBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\CustomControl\PanelControlBar_White.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
