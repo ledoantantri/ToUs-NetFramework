@@ -9,8 +9,9 @@
              x:Name="Root"
              Background="Transparent">
     
-    <!--<UserControl.Resources>
-        --><!--This is confirm button--><!--
+    <UserControl.Resources>
+        <!--This is confirm button-->
+        
         <Style x:Key="confirmBoxStyle"
                TargetType="{x:Type TextBox}">
             
@@ -21,47 +22,65 @@
             <Setter Property="Background" Value="#FEFEFE"/>
             <Setter Property="Width" Value="62.5"/>
             <Setter Property="Height" Value="62.5"/>
-            
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="18.75"/>
+                </Style>
+            </Style.Resources>
 
         </Style>
-    </UserControl.Resources>-->
+    </UserControl.Resources>
 
     <Grid>
+        <!--Define Columns-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="62.5"></ColumnDefinition>
             <ColumnDefinition Width="15"></ColumnDefinition>
+            
             <ColumnDefinition Width="62.5"></ColumnDefinition>
             <ColumnDefinition Width="15"></ColumnDefinition>
+            
             <ColumnDefinition Width="62.5"></ColumnDefinition>
             <ColumnDefinition Width="15"></ColumnDefinition>
+            
             <ColumnDefinition Width="62.5"></ColumnDefinition>
             <ColumnDefinition Width="15"></ColumnDefinition>
+            
             <ColumnDefinition Width="62.5"></ColumnDefinition>
             <ColumnDefinition Width="15"></ColumnDefinition>
+            
             <ColumnDefinition Width="62.5"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBox Grid.Column="0">
+        <!--Textboxes-->
+        <TextBox Grid.Column="0"
+                 Style="{StaticResource confirmBoxStyle}">
             
         </TextBox>
 
-        <TextBox Grid.Column="2">
+        <TextBox Grid.Column="2"
+                 Style="{StaticResource confirmBoxStyle}">
 
         </TextBox>
 
-        <TextBox Grid.Column="4">
+        <TextBox Grid.Column="4"
+                 Style="{StaticResource confirmBoxStyle}">
 
         </TextBox>
 
-        <TextBox Grid.Column="6">
+        <TextBox Grid.Column="6"
+                 Style="{StaticResource confirmBoxStyle}">
 
         </TextBox>
 
-        <TextBox Grid.Column="8">
+        <TextBox Grid.Column="8"
+                 Style="{StaticResource confirmBoxStyle}">
 
         </TextBox>
 
-        <TextBox Grid.Column="10">
+        <TextBox Grid.Column="10"
+                 Style="{StaticResource confirmBoxStyle}">
 
         </TextBox>
 
