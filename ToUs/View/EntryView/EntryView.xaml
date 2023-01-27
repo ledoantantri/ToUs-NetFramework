@@ -249,6 +249,26 @@
                                            VerticalAlignment="Top">
                     </Icon:PackIconMaterial>
 
+                    <Icon:PackIconMaterial x:Name="LanguageSwitch"
+                                           Kind="Earth"
+                                           Foreground="#D9D9D9"
+                                           Width="40"
+                                           Height="40"
+                                           Margin="140,102"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Top">
+                    </Icon:PackIconMaterial>
+
+                    <Icon:PackIconMaterial x:Name="LightDarkThemeSwitch"
+                                           Kind="ThemeLightDark"
+                                           Foreground="#D9D9D9"
+                                           Width="40"
+                                           Height="40"
+                                           Margin="200,102"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Top">
+                    </Icon:PackIconMaterial>
+
                 </Grid>
                     
                 <!--START BUTTON-->
@@ -349,10 +369,10 @@
                         <Run FontWeight="SemiBold"> Sắp xếp TKB: </Run>
                         <Italic> <Run FontWeight="SemiBold"> Chọn Học kỳ/năm → Chọn Mã lớp muốn học → Xem TKB </Run></Italic>
                         
+                        <LineBreak/>                        
+                        - Thủ công
                         <LineBreak/>
-                        Thủ công
-                        <LineBreak/>
-                        Tự động: Chọn Môn và Thứ muốn học → Chương trình tự động sắp xếp TKB phù hợp (Cần 
+                        - Tự động: Chọn Môn và Thứ muốn học → Chương trình tự động sắp xếp TKB phù hợp (Cần 
                         <Underline>
                             <Italic>
                                 Đăng nhập
@@ -370,15 +390,16 @@
                         
                         <LineBreak/>
                         <Italic>
-                            <Run Foreground="#665D8C" FontWeight="SemiBold"> ToDo: </Run>    
+                            <Run Foreground="#665D8C" FontWeight="SemiBold"> - ToDo: </Run>    
                         </Italic>
                         Tạo một danh sách các việc cần làm dựa theo môn học đã chọn
                         
                         <LineBreak/>
                         <Italic>
-                            <Run Foreground="#665D8C" FontWeight="SemiBold"> ToNote: </Run>    
+                            <Run Foreground="#665D8C" FontWeight="SemiBold"> - ToNote: </Run>    
                         </Italic>
                         Ghi chú nội dung môn học
+                        
                     </Span>
                 </Span>
             </TextBlock>
