@@ -278,9 +278,6 @@ namespace ToUs.ViewModel.AuthenticateViewModel
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Credentials = new NetworkCredential(FromEmail, pass);
 
-
-            //smtp.Send(message);
-            //IsSendCode = true;
             try
             {
                 smtp.Send(message);
@@ -288,7 +285,7 @@ namespace ToUs.ViewModel.AuthenticateViewModel
             }
             catch (Exception ex)
             {
-
+                //cannot handle exception yet!!
             }
         }
 
