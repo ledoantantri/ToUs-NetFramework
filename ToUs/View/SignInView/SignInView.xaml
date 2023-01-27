@@ -153,7 +153,7 @@
                 <!--Input Section-->
                 <Grid x:Name="Input_Section">
                     <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="71"
+                                                      Height="70"
                                                       Margin="0,230,0,0"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Top"
@@ -163,7 +163,7 @@
                                                       Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="67"
+                                                      Height="70"
                                                       Margin="0,315,0,0"
                                                       HorizontalAlignment="Center"
                                                       VerticalAlignment="Top"
@@ -175,7 +175,7 @@
                     <Button x:Name="PassForgotten"
                             Width="126.25"
                             Height="22.5"
-                            Margin="442,406,118,652"
+                            Margin="442,390,118,652"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Padding="0"
@@ -334,7 +334,7 @@
 
                 <!--Input Section-->
                 <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
+                                                      Height="70"
                                                       Margin="118,256"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Top"
@@ -343,7 +343,7 @@
                                                       Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
+                                                      Height="70"
                                                       Margin="118,338"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Top"
@@ -352,7 +352,7 @@
                                                       Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
+                                                      Height="70"
                                                       Margin="118,421"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Top"
@@ -362,7 +362,7 @@
                                                       isPassword="True"/>
 
                 <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
+                                                      Height="70"
                                                       Margin="118,504"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Top"
@@ -524,7 +524,7 @@
 
                     </Rectangle>-->
 
-                    <customcontrol:ConfirmBox Name=""/>
+                    <customcontrol:ConfirmBox></customcontrol:ConfirmBox>
                 </Grid>
 
                 <!--OTP Noti Line (NEEDING FIXED)-->
@@ -776,7 +776,7 @@
 
                 <!--Confirm Boxes (NEEDING FIXED)-->
                 <Grid x:Name="ConfirmBoxesPR">
-                    <Rectangle RadiusX="18.75"
+                    <!--<Rectangle RadiusX="18.75"
                                RadiusY="18.75"
                             Fill="#FEFEFE"
                             Width="62.5"
@@ -840,7 +840,9 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top">
 
-                    </Rectangle>
+                    </Rectangle>-->
+                    
+                    
                 </Grid>
 
                 <!--OTP Noti Line (NEEDING FIXED)-->
