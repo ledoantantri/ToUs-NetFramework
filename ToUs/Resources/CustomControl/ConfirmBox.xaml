@@ -10,7 +10,7 @@
              Background="Transparent">
     
     <UserControl.Resources>
-        <!--This is confirm button-->
+        <!--This is confirm-boxes-->
         
         <Style x:Key="confirmBoxStyle"
                TargetType="{x:Type TextBox}">
