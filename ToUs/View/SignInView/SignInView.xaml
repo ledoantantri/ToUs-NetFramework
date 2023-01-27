@@ -153,9 +153,9 @@
                 <!--Input Section-->
                 <Grid x:Name="Input_Section">
                     <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
-                                                      Margin="118,256"
-                                                      HorizontalAlignment="Left"
+                                                      Height="71"
+                                                      Margin="0,230,0,0"
+                                                      HorizontalAlignment="Center"
                                                       VerticalAlignment="Top"
                                                       TextInput="{Binding UsernameSignIn, UpdateSourceTrigger=PropertyChanged}"
                                                       Title="Nhập tài khoản"
@@ -163,9 +163,9 @@
                                                       Error="{Binding UsernameSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <customcontrol:TextBoxPlaceHolder Width="450"
-                                                      Height="45"
-                                                      Margin="118,337.25"
-                                                      HorizontalAlignment="Left"
+                                                      Height="67"
+                                                      Margin="0,315,0,0"
+                                                      HorizontalAlignment="Center"
                                                       VerticalAlignment="Top"
                                                       Password="{Binding PasswordSignIn, UpdateSourceTrigger=PropertyChanged}"
                                                       Error="{Binding PasswordSignInErrorMessage, UpdateSourceTrigger=PropertyChanged}"
@@ -331,7 +331,7 @@
                         </Grid>
                     </Button>
                 </Grid>
-                
+
                 <!--Input Section-->
                 <customcontrol:TextBoxPlaceHolder Width="450"
                                                       Height="45"
@@ -456,9 +456,9 @@
                     </Button>
                 </Grid>
 
-                <!--Confirm Boxes (NEEDING FIXED)--> 
+                <!--Confirm Boxes (NEEDING FIXED)-->
                 <Grid x:Name="ConfirmBoxes">
-                    <Rectangle RadiusX="18.75"
+                    <!--<Rectangle RadiusX="18.75"
                                RadiusY="18.75"
                             Fill="#FEFEFE"
                             Width="62.5"
@@ -490,7 +490,7 @@
                             VerticalAlignment="Top">
 
                     </Rectangle>
-                    
+
                     <Rectangle RadiusX="18.75"
                                RadiusY="18.75"
                             Fill="#FEFEFE"
@@ -522,7 +522,9 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top">
 
-                    </Rectangle>
+                    </Rectangle>-->
+
+                    <customcontrol:ConfirmBox Name=""/>
                 </Grid>
 
                 <!--OTP Noti Line (NEEDING FIXED)-->
@@ -550,7 +552,7 @@
                                Width="309"
                                Height="27"
                                Margin="189,710,188,343">
-                        Chưa nhận được?                        
+                        Chưa nhận được?
                     </TextBlock>
 
                     <Button BorderBrush="Transparent"
@@ -576,7 +578,7 @@
                         sau
                     </TextBlock>
 
-                    <!--Countdown (NEEDING ADDED)--> 
+                    <!--Countdown (NEEDING ADDED)-->
                     <!--<TextBox>
                         
                     </TextBox>-->
@@ -612,7 +614,7 @@
                 </Grid>
             </Grid>
         </Border>
-        
+
         <!--THIS IS PASSWORD RESET-->
         <Border x:Name="PassReset"
                 Background="Transparent"
