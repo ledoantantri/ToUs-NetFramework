@@ -57,12 +57,13 @@
               Margin="46 95 0 0">
 
             <TextBlock Style="{StaticResource TextHeader}"
-                               Text="Trang chủ"
-                               MaxWidth="364"
-                               Height="81"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Left"
-                               SnapsToDevicePixels="True" />
+                       Text="TRANG CHỦ"
+                       MaxWidth="364"
+                       Height="81"
+                       Margin="15 0 0 0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       SnapsToDevicePixels="True" />
 
             <StackPanel  HorizontalAlignment="Right"
                                  Orientation="Horizontal"
@@ -118,7 +119,7 @@
             <StackPanel>
 
                 <TextBlock Style="{StaticResource TextHeader}"
-                           Text="Thiết Lập"
+                           Text="THIẾT LẬP"
                            FontSize="45"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top" />
@@ -561,7 +562,7 @@
 
                 </Border>
 
-                <Grid Height="60"
+                <Grid Height="80"
                      Margin="15 20 15 0">
 
                     <Button Style="{StaticResource btnText}"
@@ -626,7 +627,7 @@
             <StackPanel Grid.Column="1">
 
                 <TextBlock Style="{StaticResource TextHeader}"
-                               Text="Thời khóa biểu đã lưu"
+                               Text="THỜI KHÓA BIỂU ĐÃ LƯU"
                            FontSize="45"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Top" />
@@ -638,13 +639,13 @@
 
                     <Grid>
 
-                        <StackPanel Width="431"
-                                    Height="96"
-                                    x:Name="SecondSPClient"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Panel.ZIndex="5"
-                                    Visibility="Collapsed">
+                            <StackPanel Width="431"
+                                        Height="96"
+                                        x:Name="SecondSPClient"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Panel.ZIndex="5"
+                                        Visibility="Collapsed">
 
                             <StackPanel.Resources>
 
