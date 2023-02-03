@@ -12,7 +12,8 @@
              Style="{StaticResource Page_Style}"
              d:DesignWidth="2500"
              HorizontalAlignment="Left"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             FontFamily="Segoe UI">
 
     <UserControl.DataContext>
         <viewmodel:UserViewModel/>
@@ -85,16 +86,15 @@
                                 HorizontalAlignment="Right"
                                 MaxWidth="304"
                                 Height="24" />
-
                     <TextBlock TextAlignment="Right"
-                                SnapsToDevicePixels="True"><Run Style="{StaticResource txtHeader1}"
-                                    Text="Chào mừng " /><Run Text=" " /><Run Style="{StaticResource txtHeader1}"
+                               SnapsToDevicePixels="True"><Run Style="{StaticResource txtHeader1}"
+                                    Text="Chào mừng " /><Run Text=" "/><Run Text=" " /><Run Text=" "/><Run Style="{StaticResource txtHeader1}"
                                     Foreground="#665D8C"
 
-                                    Text="Trí " /><Run Text=" " /><Run Style="{StaticResource txtHeader1}"
-                                    Text="đã đến với " /><Run Text=" " /><Run Style="{StaticResource txtHeader1}"
+                                    Text="Trí " /><Run Text=" "/><Run Text=" " /><Run Text=" "/><Run Style="{StaticResource txtHeader1}"
+                                    Text="đã đến với " /><Run Text=" "/><Run Text=" " /><Run Text=" "/><Run Style="{StaticResource txtHeader1}"
                                     Foreground="#665D8C"
-                                    Text="ToUs!" /></TextBlock>
+                                    Text="ToUs!"/></TextBlock>
 
                 </StackPanel>
 
@@ -259,7 +259,7 @@
                                         HorizontalAlignment="Center">
 
                                 <TextBlock  
-                                  Text="Vui Lòng"
+                                  Text="Vui lòng"
                                    Foreground="{StaticResource ThirdForegroundColor}"
                                    FontSize="36"/>
 
@@ -561,19 +561,22 @@
 
                 </Border>
 
-                <Grid Height="54"
+                <Grid Height="60"
                      Margin="15 20 15 0">
 
                     <Button Style="{StaticResource btnText}"
-                            Height="40"
-                            HorizontalAlignment="Left">
+                            Height="60"
+                            HorizontalAlignment="Left"
+                            Padding="0"
+                            VerticalAlignment="Center">
 
                         <TextBlock
                             FontSize="36"
                             Foreground="#665D8C"
                             TextDecorations="Underline"
                             Style="{StaticResource txtPrimary}"
-                            Text="Đặt lại" Height="49" />
+                            Text="Đặt lại" 
+                            Height="50" />
 
 
 
@@ -582,28 +585,29 @@
 
                     <Button HorizontalAlignment="Right"
                             Command="{Binding SaveTableCommand}"
-                            Height="50"
+                            Height="60"
                             Width="156"
                             Background="{StaticResource PrimaryColor}"
-                            materialDesign:ButtonAssist.CornerRadius="10"
+                            materialDesign:ButtonAssist.CornerRadius="12"
                             Style="{StaticResource MaterialDesignRaisedButton}">
 
                         <StackPanel Orientation="Horizontal">
 
                             <Icon:PackIconMaterial Panel.ZIndex="100"
-                                                               Margin="0 0 10 0"
-                                                                   Kind="ContentSave"
-                                                                   Foreground="{StaticResource FifthPrimaryColor}"
-                                                                   Background="Transparent"
-                                                                   Width="36"
-                                                                   Height="36"
-                                                                   VerticalAlignment="Center" />
+                                                   Margin="0 0 10 0"
+                                                    Kind="ContentSave"
+                                                    Foreground="{StaticResource FifthPrimaryColor}"
+                                                    Background="Transparent"
+                                                    Width="36"
+                                                    Height="36"
+                                                    VerticalAlignment="Center" />
 
-                            <TextBlock FontSize="30"
-                                                   Margin="5 0 23 0"
-                                                   Foreground="{StaticResource FifthPrimaryColor}"
-                                                   Text="Lưu"
-                                                   VerticalAlignment="Center">
+                            <TextBlock FontSize="36"
+                                       FontWeight="Bold"
+                                       Margin="5 0 23 0"
+                                       Foreground="{StaticResource FifthPrimaryColor}"
+                                       Text="LƯU"
+                                       VerticalAlignment="Center">
                             </TextBlock>
 
                             <ContentPresenter VerticalAlignment="Center" />
@@ -699,7 +703,7 @@
                                         HorizontalAlignment="Center">
 
                                 <TextBlock  
-                                  Text="Vui Lòng"
+                                  Text="Vui lòng"
                                    Foreground="{StaticResource ThirdForegroundColor}"
                                    FontSize="36"/>
 
