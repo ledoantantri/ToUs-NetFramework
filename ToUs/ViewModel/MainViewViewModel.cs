@@ -69,10 +69,6 @@ namespace ToUs.ViewModel
         public ICommand CloseAppCommand { get; set; }
         public ICommand NotCloseAppCommand { get; set; }
 
-
-
-
-
         public MainViewViewModel()
         {
 

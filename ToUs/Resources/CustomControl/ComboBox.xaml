@@ -102,7 +102,7 @@
                               MinWidth="{TemplateBinding ActualWidth}"
                               MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <Border
-                                    CornerRadius="8"
+                                    CornerRadius="15"
                                     x:Name="DropDownBorder"
                                     Background="White"
                                     BorderThickness="1"
@@ -168,8 +168,7 @@
     </UserControl.Resources>
     
     <Grid>
-        <Border Background="Transparent"
-                CornerRadius="15">
+        <Border>
             <ComboBox Style="{StaticResource theComboBox}">
                 
             </ComboBox>
