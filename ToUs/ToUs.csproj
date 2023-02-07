@@ -69,6 +69,9 @@
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.46\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.46\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
@@ -155,10 +158,17 @@
     <Compile Include="Models\Class.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClassManager.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Exceptions\NoDatasException.cs" />
     <Compile Include="Exceptions\NotCorrectFileException.cs" />
     <Compile Include="Models\DataSupporter.cs" />
+    <Compile Include="Models\Encode.cs" />
+    <Compile Include="Models\Faculty.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Permission.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
@@ -168,10 +178,16 @@
     <Compile Include="Models\Subject.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SubjectManager.cs">
+    <Compile Include="Models\SubjectBackUp.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Teacher.cs">
+      <DependentUpon>ToUs.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeacherBackUp.cs">
       <DependentUpon>ToUs.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TimeTable.cs">
@@ -204,6 +220,12 @@
     <Compile Include="Resources\CustomControl\BoxTimetableDetail.xaml.cs">
       <DependentUpon>BoxTimetableDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\CustomControl\ClassDetailInfo.xaml.cs">
+      <DependentUpon>ClassDetailInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\CustomControl\ComboBox.xaml.cs">
+      <DependentUpon>ComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\CustomControl\NotificationExitApp.xaml.cs">
       <DependentUpon>NotificationExitApp.xaml</DependentUpon>
     </Compile>
@@ -219,6 +241,10 @@
     <Compile Include="Resources\CustomControl\TextBoxPlaceHolder.xaml.cs">
       <DependentUpon>TextBoxPlaceHolder.xaml</DependentUpon>
     </Compile>
+    //Conflict
+    <Compile Include="Resources\CustomControl\ToggleButton.xaml.cs">
+      <DependentUpon>ToggleButton.xaml</DependentUpon>
+    //
     <Compile Include="ViewModel\LoginViewModel\SignInViewModel.cs" />
     <Compile Include="View\LoginView\ResetPasswordConfirmView.xaml.cs">
       <DependentUpon>ResetPasswordConfirmView.xaml</DependentUpon>
@@ -228,26 +254,37 @@
     </Compile>
     <Compile Include="View\LoginView\SignInView.xaml.cs">
       <DependentUpon>SignInView.xaml</DependentUpon>
+    //Conflict
     </Compile>
     <Compile Include="Utilities\Btn.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
+    <Compile Include="ViewModel\AdminViewModel\TableControlViewModel.cs" />
     <Compile Include="ViewModel\AuthenticateViewModel\AuthenticateViewModel.cs" />
     <Compile Include="ViewModel\HomePageViewModel\UserModeViewModel.cs" />
+    <Compile Include="ViewModel\HomePageViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\MainViewViewModel.cs" />
     <Compile Include="ViewModel\PreviewViewModel\PreviewViewModel.cs" />
     <Compile Include="ViewModel\ScheduleViewModel\NormalScheduleViewModel.cs" />
+    <Compile Include="View\AdminView\TableControlView.xaml.cs">
+      <DependentUpon>TableControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AuthenticateView\AuthenticateView.xaml.cs">
       <DependentUpon>AuthenticateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HomePageView\UserModeView.xaml.cs">
       <DependentUpon>UserModeView.xaml</DependentUpon>
     </Compile>
+    //Conflict
+    <Compile Include="View\HomePageView\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    //
     <Compile Include="View\LoginView\SignUpConfirmView.xaml.cs">
       <DependentUpon>SignUpConfirmView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView\SignUpView.xaml.cs">
       <DependentUpon>SignUpView.xaml</DependentUpon>
+    //Conflict
     </Compile>
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -255,6 +292,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\ManualView\ManualAddView.xaml.cs">
+      <DependentUpon>ManualAddView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PreviewView\PreviewView.xaml.cs">
       <DependentUpon>PreviewView.xaml</DependentUpon>
@@ -290,6 +330,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\CustomControl\ClassDetailInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\CustomControl\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\CustomControl\NotificationExitApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -309,6 +357,10 @@
     <Page Include="Resources\CustomControl\TextBoxPlaceHolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\CustomControl\ToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icon\Icon.xaml">
       <SubType>Designer</SubType>
@@ -346,6 +398,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\AdminView\TableControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AuthenticateView\AuthenticateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -354,17 +410,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    //Conflict
+    <Page Include="View\HomePageView\UserView.xaml">
+    //
     <Page Include="View\LoginView\SignUpConfirmView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoginView\SignUpView.xaml">
+    //Conflict
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualView\ManualAddView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PreviewView\PreviewView.xaml">
       <SubType>Designer</SubType>

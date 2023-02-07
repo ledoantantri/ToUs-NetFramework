@@ -16,12 +16,11 @@ using System.Windows.Shapes;
 namespace ToUs.Resources.CustomControl
 {
     /// <summary>
-    /// Interaction logic for BoxTimetableDetail.xaml
+    /// Interaction logic for ToggleButton.xaml
     /// </summary>
-    public partial class BoxTimetableDetail : UserControl
+    public partial class ToggleButton : UserControl
     {
-
-        public BoxTimetableDetail()
+        public ToggleButton()
         {
             InitializeComponent();
         }

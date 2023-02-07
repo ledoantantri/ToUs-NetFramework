@@ -23,7 +23,7 @@
 
     <Window.Resources>
 
-        <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.666666666666" ScaleY="0.6666666666666" />
+        <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.62" ScaleY="0.62" />
 
     </Window.Resources>
 
@@ -244,7 +244,7 @@
                     Margin="20 0 0 0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Content="{Binding CurrentView}"/>
+                    Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
                 <customcontrol:PanelControlBar
                     x:Name="PnlControlBar"

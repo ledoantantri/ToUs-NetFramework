@@ -16,12 +16,11 @@ using System.Windows.Shapes;
 namespace ToUs.Resources.CustomControl
 {
     /// <summary>
-    /// Interaction logic for BoxTimetableDetail.xaml
+    /// Interaction logic for ComboBox.xaml
     /// </summary>
-    public partial class BoxTimetableDetail : UserControl
+    public partial class ComboBox : UserControl
     {
-
-        public BoxTimetableDetail()
+        public ComboBox()
         {
             InitializeComponent();
         }

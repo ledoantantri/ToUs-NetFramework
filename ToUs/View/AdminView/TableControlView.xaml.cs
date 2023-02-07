@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ToUs.Resources.CustomControl
+namespace ToUs.View.AdminView
 {
     /// <summary>
-    /// Interaction logic for BoxTimetableDetail.xaml
+    /// Interaction logic for TableControlView.xaml
     /// </summary>
-    public partial class BoxTimetableDetail : UserControl
+    public partial class TableControlView : UserControl
     {
-
-        public BoxTimetableDetail()
+        public TableControlView()
         {
             InitializeComponent();
+            TextDateTime.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy");
         }
     }
 }
