@@ -11,8 +11,6 @@ namespace ToUs.ViewModel.HomePageViewModel
     public class UserModeViewModel : ViewModelBase
     {
         private string[] _paths;
-        private bool _isCheckedNormalMode = true;
-        private bool _isCheckedAutomaticMode;
         private string _tableName;
         private object _currentView;
 
@@ -30,18 +28,6 @@ namespace ToUs.ViewModel.HomePageViewModel
         {
             get { return _tableName; }
             set { _tableName = value; OnPropertyChanged(nameof(TableName)); }
-        }
-
-        public bool IsCheckedNormalMode
-        {
-            get { return _isCheckedNormalMode; }
-            set { _isCheckedNormalMode = value; OnPropertyChanged(nameof(IsCheckedNormalMode)); }
-        }
-
-        public bool IsCheckedAutomaticMode
-        {
-            get { return _isCheckedAutomaticMode; }
-            set { _isCheckedAutomaticMode = value; OnPropertyChanged(nameof(IsCheckedAutomaticMode)); }
         }
 
         public object CurrentView
@@ -62,8 +48,7 @@ namespace ToUs.ViewModel.HomePageViewModel
         public UserModeViewModel()
         {
             LoadExcelCommand = new RelayCommand(LoadExcel);
-            ChooseNormalModeCommand = new RelayCommand(ChooseNormalMode);
-            ChooseAutomaticModeCommand = new RelayCommand(ChooseAutomaticMode);
+
             CreateTableCommand = new RelayCommand(CreateTable, CanCreateTable);
         }
 
@@ -78,16 +63,6 @@ namespace ToUs.ViewModel.HomePageViewModel
         {
             MessageBox.Show("Đã lưu thông tin tạo thời khóa biểu thành công, " +
                 "vui lòng chuyển sang chọn lớp học để tạo thời khóa biểu");
-        }
-
-        private void ChooseNormalMode(object obj)
-        {
-            IsCheckedAutomaticMode = false;
-        }
-
-        private void ChooseAutomaticMode(object obj)
-        {
-            IsCheckedNormalMode = false;
         }
 
         private async void LoadExcel(object obj)

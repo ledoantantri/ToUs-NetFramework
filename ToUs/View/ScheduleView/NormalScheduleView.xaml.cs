@@ -64,5 +64,10 @@ namespace ToUs.View.ScheduleView
             }
             return false;
         }
+
+        private void ExcelTimetableDataGrid_SelectionChanged()
+        {
+
+        }
     }
 }

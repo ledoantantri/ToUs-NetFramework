@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -236,7 +237,7 @@ namespace ToUs.Models
 
         public static List<ClassManager> GetAllClassManager()
         {
-            List<ClassManager> classManagers = new List<ClassManager>();
+            var classManagers = new List<ClassManager>();
             try
             {
                 foreach (DataTable dataTable in _tableCollection)
@@ -251,6 +252,78 @@ namespace ToUs.Models
                             int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
                             var classFound = context.Classes
                                 .FirstOrDefault(classChecked => classChecked.ClassId == classId &&
+                                                                classChecked.Year == year &&
+                                                                classChecked.Semester == semester
+                                );
+                            if (classFound != null)
+                                classIdOfClassManager = classFound.Id;
+                        }
+                        if (classIdOfClassManager != -1)
+                        {
+                            string subjectId = row["MÃ MH"].ToString().Trim();
+
+                            var classManager = new ClassManager()
+                            {
+                                SubjectId = subjectId,
+                                ClassId = classIdOfClassManager,
+                                IsDelete = false,
+                                Type = ExcelReader.Type,
+                                TeacherId = null
+                            };
+
+                            List<Teacher> teacherInRows = GetTeachers(row);
+                            if (teacherInRows.Count > 0)
+                            {
+                                foreach (var teacher in teacherInRows)
+                                {
+                                    if (!classManagers.Any(manager =>
+                                            manager.ClassId == classIdOfClassManager &&
+                                            manager.SubjectId == subjectId &&
+                                            manager.TeacherId == teacher.Id))
+                                    {
+                                        classManager.TeacherId = teacher.Id;
+                                        classManagers.Add(classManager);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (!classManagers.Any(manager =>
+                                        manager.ClassId == classIdOfClassManager &&
+                                        manager.SubjectId == subjectId &&
+                                        String.IsNullOrEmpty(manager.TeacherId)))
+                                {
+                                    classManagers.Add(classManager);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return classManagers;
+        }
+
+        public static async Task<List<ClassManager>> GetAllClassManagerAsync()
+        {
+            var classManagers = new List<ClassManager>();
+            try
+            {
+                foreach (DataTable dataTable in _tableCollection)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        long classIdOfClassManager = -1;
+                        using (var context = new TOUSEntities())
+                        {
+                            string classId = row["MÃ LỚP"].ToString().Trim();
+                            int semester = int.Parse(row["HỌC KỲ"].ToString().Trim());
+                            int year = int.Parse(row["NĂM HỌC"].ToString().Trim());
+                            var classFound = await context.Classes
+                                .FirstOrDefaultAsync(classChecked => classChecked.ClassId == classId &&
                                                                 classChecked.Year == year &&
                                                                 classChecked.Semester == semester
                                 );
@@ -559,7 +632,7 @@ namespace ToUs.Models
                                                             new string[] { "Id" },
                                                             new string[] { "ClassId", "Year", "Semester" });
                 await Task.WhenAll(subjectTask, teacherTask, classTask);
-                await ImportAsync<ClassManager>(GetAllClassManager(),
+                await ImportAsync<ClassManager>(await GetAllClassManagerAsync(),
                                               new string[] { "Id" },
                                               new string[] { "SubjectId", "TeacherId", "ClassId" });
 
@@ -578,7 +651,7 @@ namespace ToUs.Models
             }
         }
 
-        public static void ImportToDB()
+        public static bool ImportToDB()
         {
             try
             {
@@ -592,10 +665,12 @@ namespace ToUs.Models
                                      new string[] { "Id" },
                                      new string[] { "SubjectId", "TeacherId", "ClassId" });
                 MessageBox.Show("File đã được load thành công");
+                return true;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return false;
             }
         }
     }

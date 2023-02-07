@@ -173,7 +173,7 @@
                 ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}"
                 ItemsSource="{Binding DataRowsView, UpdateSourceTrigger=PropertyChanged}"
                 RowStyle="{DynamicResource DataGridRowStyle}"
-                Style="{DynamicResource DataGridStyle}">
+                Style="{DynamicResource DataGridStyle}" SelectionChanged="ExcelTimetableDataGrid_SelectionChanged">
 
                 <DataGrid.Columns>
 
@@ -208,7 +208,6 @@
 
                                 <StackPanel Orientation="Horizontal">
 
-
                                     <CheckBox
                                         x:Name="ckbClassId"
                                         materialDesign:CheckBoxAssist.CheckBoxSize="45"
@@ -221,7 +220,6 @@
                                         Style="{StaticResource TextDataGrid}"
                                         Text="{Binding Class.Id}"
                                         TextTrimming="CharacterEllipsis" />
-
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
