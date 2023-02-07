@@ -44,7 +44,7 @@ namespace ToUs.ViewModel.StartViewModel
 
         public StartViewModel() 
         {
-            IsViewVisible = false;
+            IsViewVisible = true;
 
             EntryCommand = new RelayCommand(Entry);
             AuthenticateCommand = new RelayCommand(Authenticate);
