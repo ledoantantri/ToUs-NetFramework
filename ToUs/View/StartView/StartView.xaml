@@ -27,6 +27,9 @@
     <Window.Resources>
         <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.62" ScaleY="0.62"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!--<Style TargetType="local:StartView">
+            <Setter Property="OfficialStartViewIsViewVisible" Value="{Binding IsViewVisible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        </Style>-->
     </Window.Resources>
 
     <Window.Visibility>
@@ -38,15 +41,11 @@
           Background="Transparent"
           LayoutTransform="{StaticResource windowScaleTransform}">
 
-
-
-
         <ContentControl x:Name="Pages"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="{Binding CurrentView}"/>
-
-
+                    Content="{Binding CurrentView}"
+                    />
 
         <customcontrol:PanelControlBar
                     x:Name="PnlControlBar"

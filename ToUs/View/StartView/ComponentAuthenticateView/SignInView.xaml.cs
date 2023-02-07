@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel;
 
 namespace ToUs.View.StartView.ComponentAuthenticateView
 {
@@ -23,11 +24,30 @@ namespace ToUs.View.StartView.ComponentAuthenticateView
         public SignInView()
         {
             InitializeComponent();
+
         }
 
         private void TextBoxPlaceHolderSignIn_KeyDown(object sender, KeyEventArgs e)
         {
             txbPlaceHolderSignInPassword.Error = "";
         }
+
+        //private void Next_SI_Click(object sender, RoutedEventArgs e)
+        //{
+        //    StartView parent = Window.GetWindow(this) as StartView;
+        //    if(parent != null)
+        //    {
+        //        parent.OfficialStartViewIsViewVisible = this.DataContext.;
+        //    }
+        //}
+
+        public bool StartViewIsViewVisible
+        {
+            get { return (bool)this.GetValue(StartViewIsViewVisibleProperty); }
+            set { this.SetValue(StartViewIsViewVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty StartViewIsViewVisibleProperty = DependencyProperty.Register(
+            "StartViewIsViewVisible", typeof(bool), typeof(SignInView), new PropertyMetadata());
     }
 }

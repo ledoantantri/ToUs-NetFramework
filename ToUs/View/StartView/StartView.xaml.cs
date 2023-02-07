@@ -24,5 +24,14 @@ namespace ToUs.View.StartView
             InitializeComponent();
             PnlControlBar.Window = this;
         }
+
+        public bool OfficialStartViewIsViewVisible
+        {
+            get { return (bool)this.GetValue(OfficialStartViewIsViewVisibleProperty); }
+            set { this.SetValue(OfficialStartViewIsViewVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty OfficialStartViewIsViewVisibleProperty = DependencyProperty.Register(
+            "OfficialStartViewIsViewVisible", typeof(bool), typeof(StartView), new PropertyMetadata());
     }
 }

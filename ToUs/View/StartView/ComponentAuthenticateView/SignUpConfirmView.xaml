@@ -200,6 +200,7 @@
                             </i:EventTrigger>
                             <i:DataTrigger Binding="{Binding Path=IsValidCode}" Value="true">
                                 <i:InvokeCommandAction Command="{Binding SaveAccountInfoToDbCommand}"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchToSignInCommand}"/>
                             </i:DataTrigger>
                         </i:Interaction.Triggers>
                     </Button>

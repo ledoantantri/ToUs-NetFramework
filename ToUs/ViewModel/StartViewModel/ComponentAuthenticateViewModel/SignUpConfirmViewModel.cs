@@ -75,6 +75,7 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
 
         //Commands:
         public ICommand SwitchToSignUpCommand { get; set; }
+        public ICommand SwitchToSignInCommand { get; set; }
         public ICommand ReSendCodeCommand { get; set; }
         public ICommand VerifyConfirmCodeCommand { get; set; }
         public ICommand SaveAccountInfoToDbCommand { get; set; }
@@ -88,6 +89,7 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
             IsValidCode = false;
 
             SwitchToSignUpCommand = AuthenticateViewModel.SignUpCommand;
+            SwitchToSignInCommand = AuthenticateViewModel.SignInCommand;
             ReSendCodeCommand = new RelayCommand(ReSendCode);
             VerifyConfirmCodeCommand = new RelayCommand(VerifyConfirmCode);
             SaveAccountInfoToDbCommand = new RelayCommand(SaveAccountInfoToDb);

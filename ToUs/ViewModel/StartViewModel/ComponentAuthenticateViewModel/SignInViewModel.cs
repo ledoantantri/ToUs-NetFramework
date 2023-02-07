@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Input;
 using ToUs.Models;
 using ToUs.Utilities;
@@ -14,14 +14,27 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
 {
     public class SignInViewModel:ViewModelBase
     {
+
         //Static: 
-        public static int ourScreenWidth = Screen.PrimaryScreen.WorkingArea.Width;
-        public static int ourScreenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+        public static int ourScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+        public static int ourScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+
 
         //Sign in:
         private string _emailSignIn;
         private string _passwordSignIn;
         private string _passwordSignInErrorMessage;
+        private bool _isSignInSucess;
+
+        public bool IsSignInSucess
+        {
+            get { return _isSignInSucess; }
+            set
+            {
+                _isSignInSucess = value;
+                OnPropertyChanged(nameof(IsSignInSucess));  
+            }
+        }
 
         public string EmailSignIn
         {
@@ -78,7 +91,7 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
 
         //Command:
         public ICommand SignInCommand { get; set; }
-
+        public ICommand ChangeStartViewIsViewVisibleCommand { get; set; }
         public ICommand SwitchToSignUpCommand { get; set; }
         public ICommand SwitchToResetPasswordCommand { get; set; }
 
@@ -87,9 +100,12 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
             ScaleWidth = (float)ourScreenWidth / 1920f;
             ScaleHeight = (float)ourScreenHeight / 1080f;
 
+            IsSignInSucess = false;
+
             SignInCommand = new RelayCommand(SignIn);
             SwitchToSignUpCommand = AuthenticateViewModel.SignUpCommand;
             SwitchToResetPasswordCommand = AuthenticateViewModel.ResetPasswordCommand;
+            ChangeStartViewIsViewVisibleCommand = StartViewModel.ChangeIsViewVisibleFromSignInCommand;
             
         }
 
@@ -118,9 +134,8 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
 
                         User user = DataSupporter.GetUserByEmail(AppConfiguration.UserEmail);
                         AppConfiguration.UserDetail = DataSupporter.GetUserDetailByUserID(user.Id);
-                        //StartViewModel.IsViewVisible = false;
-                        MessageBox.Show("Dang nhap thanh cong!!");
-                        
+
+                        IsSignInSucess = true;
                     }
                     else
                     {

@@ -13,6 +13,7 @@ namespace ToUs.Models
         //Static fields and properties:
         private static Random _rand = new Random();
         private static string _codeSent;
+        private static bool _isSignInSucess = false;
         private static string _userEmail;
         private static UserDetail _userDetail;
         private static string connectionString;
@@ -21,6 +22,11 @@ namespace ToUs.Models
 
         private static string _currentExcelPath = null;
 
+        public static bool IsSignInSucess
+        {
+            get { return _isSignInSucess; }
+            set { _isSignInSucess = value; }
+        }
 
         public static Random Rand
         {
