@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:customcontrol="clr-namespace:ToUs.Resources.CustomControl"
+             xmlns:messagebox="clr-namespace:ToUs.Resources.CustomControl.BoxNotification"
              xmlns:viewmodel="clr-namespace:ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:ToUs.View.StartView.ComponentAuthenticateView"
@@ -26,6 +27,15 @@
     </UserControl.Resources>
 
     <Grid>
+
+        <messagebox:MessageBox Width="390"
+                               Message="Đăng ký thành công!"
+                                Height="150"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                IsVisible="{Binding IsSucessSaveToDb, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+/>
+
         <!--THIS IS SIGN UP CONFIRM-->
         <Border x:Name="SignUpConfirm"
                 Background="Transparent"

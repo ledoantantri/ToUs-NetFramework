@@ -61,6 +61,7 @@
                 Panel.ZIndex="1000">
 
                 <customcontrol:NotificationExitApp
+                    Message="Bạn có muốn thoát không?"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding NotCloseAppCommand}"

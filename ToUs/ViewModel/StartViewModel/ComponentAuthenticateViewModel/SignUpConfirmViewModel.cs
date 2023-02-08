@@ -127,7 +127,6 @@ namespace ToUs.ViewModel.StartViewModel.ComponentAuthenticateViewModel
             }
 
             IsSucessSaveToDb = true;
-            MessageBox.Show("Dang ky thanh cong!!");
 
         }
 

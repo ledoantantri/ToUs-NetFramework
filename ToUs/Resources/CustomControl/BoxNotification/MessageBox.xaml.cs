@@ -13,35 +13,30 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ToUs.Resources.CustomControl
+namespace ToUs.Resources.CustomControl.BoxNotification
 {
     /// <summary>
-    /// Interaction logic for NotificationExitApp.xaml
+    /// Interaction logic for MessageBox.xaml
     /// </summary>
-    public partial class NotificationExitApp : UserControl
+    public partial class MessageBox : UserControl
     {
+
+        //command
         public new bool IsVisible
         {
             get { return (bool)GetValue(IsVisibleProperty); }
             set { SetValue(IsVisibleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsVisible. This enables animation,
-        // styling, binding, etc...
         public new static readonly DependencyProperty IsVisibleProperty =
-            DependencyProperty.Register("IsVisible", typeof(bool), typeof(NotificationExitApp), new PropertyMetadata(false));
+            DependencyProperty.Register("IsVisible", typeof(bool), typeof(MessageBox));
 
-        //Command property
-
+        //command
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
-
-        public static DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(NotificationExitApp));
-
 
         //Message
 
@@ -53,16 +48,16 @@ namespace ToUs.Resources.CustomControl
         }
 
         public static readonly DependencyProperty MessageProperty =
-            DependencyProperty.Register("Message", typeof(string), typeof(NotificationExitApp));
+            DependencyProperty.Register("Message", typeof(string), typeof(MessageBox));
 
-        public NotificationExitApp()
+
+
+        public static DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(MessageBox));
+
+        public MessageBox()
         {
             InitializeComponent();
-        }
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
     }
 }

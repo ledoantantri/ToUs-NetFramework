@@ -28,7 +28,7 @@
         <Grid Background="Transparent">
 
             <TextBlock Style="{StaticResource txtPrimary}"
-                       Text="Bạn chắc chắn muốn thoát?"
+                       Text="{Binding Message, ElementName=Root}"
                        Foreground="#665D8C"
                        FontSize="27"
                        FontWeight="SemiBold"

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:ToUs.View.StartView.ComponentAuthenticateView"
+             xmlns:messagebox="clr-namespace:ToUs.Resources.CustomControl.BoxNotification"
              mc:Ignorable="d" 
              xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              xmlns:customcontrol="clr-namespace:ToUs.Resources.CustomControl"
@@ -40,6 +41,8 @@
                                Margin="240,156,240,871">
                     </TextBlock>
                 </Grid>
+
+
 
                 <!--Input Section-->
                 <Grid x:Name="Input_Section">
