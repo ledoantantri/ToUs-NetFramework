@@ -254,7 +254,7 @@
                             Height="400"
                             Style="{StaticResource BorderStyle}">
 
-                            <StackPanel Margin="33,35,26.4,15" HorizontalAlignment="Center">
+                            <!--<StackPanel Margin="33,35,26.4,15" HorizontalAlignment="Center">
 
                                 <StackPanel Orientation="Horizontal">
 
@@ -382,7 +382,115 @@
                                         </StackPanel>
                                     </Button>
                                 </Grid>
-                            </StackPanel>
+                            </StackPanel>-->
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="140"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!--Add Button-->
+                                <Grid Grid.Column="1">
+                                    <Button Margin="0 133"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="Transparent"
+                                            Background="Transparent"
+                                            Height="100"
+                                            Width="100"
+                                            Padding="0">
+                                        <Grid>
+                                            <Ellipse Height="100"
+                                                 Width="100"
+                                                 Fill="{StaticResource FifthForegroundColor}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"/>
+                                            <Icon:PackIconMaterial Kind="Plus"
+                                                               Height="40"
+                                                               Width="40"
+                                                               Foreground="{StaticResource FifthPrimaryColor}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+
+                                    <TextBlock Text="Thêm"
+                                               Foreground="{StaticResource FifthForegroundColor}"
+                                               FontSize="26"
+                                               FontWeight="SemiBold"
+                                               Margin="0 240 0 120"
+                                               TextAlignment="Center"/>
+                                </Grid>
+
+                                <!--Edit Button-->
+                                <Grid Grid.Column="3">
+                                    <Button Margin="0 133"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="Transparent"
+                                            Background="Transparent"
+                                            Height="100"
+                                            Width="100"
+                                            Padding="0">
+                                        <Grid>
+                                            <Ellipse Height="100"
+                                                 Width="100"
+                                                 Fill="{StaticResource FifthForegroundColor}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"/>
+                                            <Icon:PackIconMaterial Kind="Pencil"
+                                                               Height="40"
+                                                               Width="40"
+                                                               Foreground="{StaticResource FifthPrimaryColor}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+
+                                    <TextBlock Text="Sửa"
+                                               Foreground="{StaticResource FifthForegroundColor}"
+                                               FontSize="26"
+                                               FontWeight="SemiBold"
+                                               Margin="0 240 0 120"
+                                               TextAlignment="Center"/>
+                                </Grid>
+
+                                <!--Delete Button-->
+                                <Grid Grid.Column="5">
+                                    <Button Margin="0 133"
+                                            VerticalAlignment="Top"
+                                            BorderBrush="Transparent"
+                                            Background="Transparent"
+                                            Height="100"
+                                            Width="100"
+                                            Padding="0">
+                                        <Grid>
+                                            <Ellipse Height="100"
+                                                 Width="100"
+                                                 Fill="{StaticResource ErrorForegroundColor}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"/>
+                                            <Icon:PackIconMaterial Kind="TrashCan"
+                                                               Height="40"
+                                                               Width="40"
+                                                               Foreground="{StaticResource FifthPrimaryColor}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+
+                                    <TextBlock Text="Xóa"
+                                               Foreground="{StaticResource ErrorForegroundColor}"
+                                               FontSize="26"
+                                               FontWeight="SemiBold"
+                                               Margin="0 240 0 120"
+                                               TextAlignment="Center"/>
+                                </Grid>
+                            </Grid>
                         </Border>
                     </StackPanel>
                 </StackPanel>
